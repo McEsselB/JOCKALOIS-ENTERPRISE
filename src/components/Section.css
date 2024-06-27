@@ -1,0 +1,28 @@
+/* Section.css */
+.section {
+    margin: 20px 0;
+  }
+  
+  .section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+  }
+  
+  .product-list {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    width: 100%;
+  }
+  
+  .product-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .product-list {
+    -ms-overflow-style: none; /* for Internet Explorer and Edge */
+    scrollbar-width: none; /* for Firefox */
+  }
+  
