@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   const handleLogin = () => {
-    navigate('/dashboard');
+    navigate('/sign-in');
   };
 
   useEffect(() => {
