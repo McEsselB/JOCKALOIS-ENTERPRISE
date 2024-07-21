@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -21,22 +20,64 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import logo from "../../../assets/images/logo.png"; // Adjust the path to the logo file
 import workerImage from "../../../assets/images/worker2.png"; // Adjust the path to the worker image
 import { useNavigate } from "react-router-dom";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { app } from "../../../firebase";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const navigate = useNavigate(); // Initialize navigate here
+  const navigate = useNavigate();
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleGoogleClick = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth(app);
+
+      const result = await signInWithPopup(auth, provider);
+
+      await axios
+        .post("/api/auth/google", {
+          username: result.user.displayName,
+          email: result.user.email,
+          profilePicture: result.user.photoURL,
+        })
+        .then((res) => {
+          toast.success("Logged in");
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log("Error Google Sign in/up", error);
+    }
+  };
+
+  const handleSignIn = async () => {
+    await axios
+      .post("/api/auth/login", data)
+      .then(() => {
+        toast.success("Logged In");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong");
+      });
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+
+    setData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSignup = () => {
+    toast.success("Logged in");
     navigate("/sign-up");
   };
 
@@ -110,7 +151,7 @@ export default function SignIn() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
               <TextField
@@ -176,9 +217,7 @@ export default function SignIn() {
                   variant="outlined"
                   startIcon={<GoogleIcon />}
                   sx={{ textTransform: "none", borderRadius: 5 }}
-                  onClick={() => {
-                    /* handle Google sign-in */
-                  }}
+                  onClick={handleGoogleClick}
                 >
                   Google
                 </Button>

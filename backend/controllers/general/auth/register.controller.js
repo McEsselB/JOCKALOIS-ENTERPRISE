@@ -31,7 +31,6 @@ export const register = async (req, res, next) => {
       message: "User Created Successfully",
     });
   } catch (error) {
-    // next(error);
-    return res.status(400).json(error);
+    next(error);
   }
 };

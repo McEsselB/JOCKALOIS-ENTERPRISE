@@ -17,6 +17,17 @@ app.post("/api/", (req, res) => {
 
 app.use("/api/auth", auth);
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
+
 app.listen(process.env.PORT, () => {
   mongoose
     .connect(process.env.MONGO_DB_CONNECTION_STRING)
