@@ -1,0 +1,151 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: linear-gradient(to right, #6881C1, #6881C1, #B3A069);
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.top-section {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 10%;
+}
+
+.icons3 {
+  display: flex;
+  gap: 10px;
+}
+
+.icon3 {
+  width: 24px;
+  cursor: pointer;
+}
+
+.divider2 {
+  border: none;
+  border-top: 1px solid #fff;
+  margin: 20px 10%;
+  width: 80%;
+}
+
+.middle-section {
+  text-align: left;
+  margin: 0 10%;
+}
+
+.middle-section h2,
+.middle-section p {
+  margin: 5px 0;
+  color: #fff;
+  font-size: 19px;
+}
+
+.middle-section h2 {
+  margin-bottom: 30px;
+}
+
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 10%;
+  color: #fff;
+  margin-top: 50px;
+}
+
+.business-info, .contact, .stay-in-touch {
+  width: 30%;
+}
+
+.logo2-image {
+  width: 100px;
+  margin: 0px 0 10px;
+}
+
+.business-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.business-address {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.contact h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 0;
+  border-bottom: 1px solid #fff;
+  padding: 5px 0;
+}
+
+.contact-item p {
+  font-size: 16px;
+}
+
+.contact-item span.arrow {
+  cursor: pointer;
+}
+
+.contact-divider {
+  border-bottom: 1px solid #fff;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.stay-in-touch h3 {
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.stay-in-touch .email-section {
+  border-bottom: 1px solid #fff;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  margin-top: 40px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background: transparent;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 10px;
+  }
+
+  .divider {
+    margin: 10px 5%;
+    width: 90%;
+  }
+
+  .bottom-section {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 5%;
+  }
+
+  .business-info, .contact, .stay-in-touch {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
