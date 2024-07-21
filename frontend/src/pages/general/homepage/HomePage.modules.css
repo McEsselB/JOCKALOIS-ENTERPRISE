@@ -1,0 +1,116 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.filter-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ensures the search bar moves to the far right */
+  padding: 10px;
+}
+
+.search-container {
+  display: none; /* Hide by default */
+  align-items: center;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 5px;
+  max-width: 600px;
+  margin: auto;
+  margin-top: 90px;
+}
+
+.dropdown-button {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 16px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-right: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.dropdown-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+  background-color: transparent;
+}
+
+.camera-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.search-button {
+  background-color: #6888C1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.search-button .search-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+
+@media (max-width: 768px) {
+  .filter-search-container {
+    flex-direction: row; /* Ensures the filter and search bar are in the same line */
+    justify-content: space-between;
+  }
+
+  .search-container {
+    margin-top: 90px;
+    display: flex;
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .dropdown-button {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .search-container {
+    margin-top: 90px;
+    display: flex; /* Show on tablet and mobile screens */
+  }
+
+  .search-input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .search-button {
+    padding: 8px 15px;
+  }
+
+  .search-button .search-icon {
+    width: 18px;
+    height: 18px;
+  }
+}

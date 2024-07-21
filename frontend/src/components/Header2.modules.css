@@ -80,6 +80,7 @@ body {
   display: flex;
   align-items: center;
   margin-right: 25px;
+  position: relative;
 }
 
 .flag-icon {
@@ -89,15 +90,49 @@ body {
 
 .language-text {
   margin-right: 5px;
+  color: #404040;
 }
 
 .down-arrow {
   margin-right: 5px;
 }
 
+.language-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  width: 180px;
+}
+
+.lang-main {
+  margin-left: 8px;
+  font-size: 17px;
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.language-option:hover {
+  background-color: #f0f0f0;
+}
+
+.selected-icon {
+  margin-left: auto;
+  color: #404040;
+}
+
 .profile {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .profile-pic {
@@ -129,10 +164,34 @@ body {
   width: 18px;
 }
 
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  width: 200px;
+}
+
+.profile-option {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.profile-option:hover {
+  background-color: #f0f0f0;
+}
+
+.profile-option .icon2 {
+  margin-right: 10px;
+}
+
 /* Tablet view adjustments */
 @media (max-width: 768px) {
- 
-
   .search-container2 {
     display: none;
   }
@@ -145,25 +204,25 @@ body {
   .logo2 {
     margin-right: auto;
   }
+
   .profile-pic {
     margin-right: 10px;
   }
-  
+
   .profile-info {
     margin-right: 30px;
   }
-  
+
   .profile-name {
     font-weight: bold;
   }
-  
+
   .down-arrow {
     margin-right: 25px;
   }
-  
+
   .notification-icon {
     margin-right: 15px;
     position: relative;
   }
-  
 }

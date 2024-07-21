@@ -2,6 +2,24 @@
   text-align: center;
 }
 
+/* App.css */
+.app {
+  display: flex;
+}
+
+.main-content {
+  flex-grow: 1;
+  transition: margin-left 0.3s;
+}
+
+.sidebar-open .main-content {
+  margin-left: 190px;
+}
+
+.sidebar-closed .main-content {
+  margin-left: 80px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

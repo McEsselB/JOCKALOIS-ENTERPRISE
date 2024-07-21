@@ -8,6 +8,7 @@
     margin: 20px 0 20px 10px; /* Shifted to the left */
     width: fit-content;
     cursor: pointer;
+    margin-top: 100px;
   }
   
   .filter-icon {

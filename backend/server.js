@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 
+import auth from "./routes/general/auth.js";
+
 dotenv.config();
 const app = express();
 
@@ -12,6 +14,8 @@ app.use(cookieParser());
 app.post("/api/", (req, res) => {
   res.send("JOCKALOIS ENTERPRISE Server is UP and Running");
 });
+
+app.use("/api/auth", auth);
 
 app.listen(process.env.PORT, () => {
   mongoose

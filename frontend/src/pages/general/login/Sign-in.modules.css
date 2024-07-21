@@ -1,0 +1,41 @@
+.leftSide {
+    background-color: #6881C1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .workerImage {
+    width: 90%;
+    height: auto;
+    margin-top: 16px;
+    background-color: transparent;
+  }
+  
+  .signupButton {
+    margin-top: 8px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #1976d2; /* Adjust the color to match your theme */
+    border-radius: 8px;
+    background-color: white;
+    color: #1976d2; /* Adjust the color to match your theme */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .signupButton:hover {
+    background-color: #f1f1f1;
+    border-color: #1976d2; /* Adjust the color to match your theme */
+  }
+  
