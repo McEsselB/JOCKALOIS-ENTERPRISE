@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 
 export const register = async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password, confirmPassword } = req.body;
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+    const { username, email, password, confirmPassword } = req.body;
+    if (!username || !email || !password || !confirmPassword) {
       return res.status(400).json({ message: "Fill all fields" });
     }
 

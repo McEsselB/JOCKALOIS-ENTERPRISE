@@ -1,246 +1,171 @@
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
-import PersonIcon from "@mui/icons-material/Person";
-import InputAdornment from "@mui/material/InputAdornment";
-import Paper from "@mui/material/Paper";
+import GoogleIcon from "@mui/icons-material/Google";
+import AppleIcon from "@mui/icons-material/Apple";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import logo from "../../../assets/images/logo.png";
+import workerImage from "../../../assets/images/worker2.png";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { app } from "../../../firebase";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import logo from "../../../assets/images/logo.png"; // Adjust the path to the logo file
-import workerImage from "../../../assets/images/worker3.png"; // Adjust the path to the worker image
-
-const defaultTheme = createTheme();
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        The Jockalois Enterprise
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 export default function SignUp() {
-  const navigate = useNavigate(); // Initialize navigate here
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-      reEnterPassword: data.get("reEnterPassword"),
-    });
-    navigate("/sign-in"); // Correctly navigate after submission
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    username: "",
+    confirmPassword: "",
+    profilePicture: "",
+  });
+
+  const handleGoogleClick = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth(app);
+
+      const result = await signInWithPopup(auth, provider);
+
+      await axios
+        .post("/api/auth/google", {
+          username: result.user.displayName,
+          email: result.user.email,
+          profilePicture: result.user.photoURL,
+        })
+        .then((res) => {
+          toast.success("Log in Successful");
+          console.log(res.data);
+          navigate("/");
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log("Error Google Sign in/up", error);
+      toast.error("Google Sign in Failed");
+    }
   };
 
-  const handleSignIn = () => {
-    navigate("/sign-in"); // Function to navigate to the sign-in page
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    if (data.password !== data.confirmPassword) {
+      return toast.error("Password do not match");
+    }
+
+    await axios
+      .post("/api/auth/register", data)
+      .then(() => {
+        toast.success("Sign up successful");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data?.message || "Something went wrong");
+      });
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+
+    setData((prev) => ({ ...prev, [id]: value }));
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundColor: "#6881C1",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            padding: "20px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              mt: 2,
-              mb: 4,
+    <div className="grid grid-cols-2 h-screen items-center justify-center gap-10">
+      <div className="items-center bg-blue-800 h-screen justify-center flex flex-col">
+        <img src={logo} alt="" className="w-10 h-10" />
+        <img src={workerImage} alt="" className="w-10 h-10" />
+      </div>
+
+      <div className="flex flex-col pr-10 w-full max-w-[500px] justify-self-center ">
+        <p className="text-center text-slate-800 font-bold text-3xl">Sign Up</p>
+        <form onSubmit={handleSignUp}>
+          <div className=" flex flex-col gap-4 ">
+            <input
+              required
+              type="email"
+              placeholder="Email "
+              onChange={handleChange}
+              id="email"
+              className="border-slate-700 py-2 border rounded-md w-full pl-2"
+            />
+            <input
+              required
+              type="text"
+              placeholder="Username "
+              onChange={handleChange}
+              id="username"
+              className="border-slate-700 py-2 border rounded-md w-full pl-2"
+            />
+
+            <input
+              required
+              type="password"
+              placeholder="Password"
+              onChange={handleChange}
+              id="password"
+              className="border-slate-700 border rounded-md py-2 w-full pl-2"
+            />
+            <input
+              required
+              type="password"
+              placeholder="Password"
+              onChange={handleChange}
+              id="confirmPassword"
+              className="border-slate-700 border rounded-md py-2 w-full pl-2"
+            />
+
+            <button className="bg-blue-700 self-center justify-self-center items-center w-full text-white py-2 rounded-lg">
+              SIGN UP
+            </button>
+          </div>
+        </form>
+
+        <Box sx={{ display: "flex", justifyContent: "space-around", mt: 2 }}>
+          <Button
+            variant="outlined"
+            startIcon={<GoogleIcon />}
+            sx={{ textTransform: "none", borderRadius: 5 }}
+            onClick={handleGoogleClick}
+          >
+            Google
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<AppleIcon />}
+            sx={{ textTransform: "none", borderRadius: 5 }}
+            onClick={() => {
+              /* handle Apple sign-in */
             }}
           >
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "50px", height: "50px" }}
-            />
-          </Box>
-          <Avatar sx={{ m: 1, bgcolor: "rgba(255, 255, 255, 1)" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Box
-            component="img"
-            src={workerImage}
-            alt="Worker"
-            sx={{ width: "70%", height: "auto", mt: 2, bgcolor: "transparent" }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Container
-            component="main"
-            maxWidth="xs"
-            sx={{ overflowY: "auto", height: "100%" }}
+            Apple
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<FacebookIcon />}
+            sx={{ textTransform: "none", borderRadius: 5 }}
+            onClick={() => {
+              /* handle Facebook sign-in */
+            }}
           >
-            <Box
-              sx={{
-                marginTop: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign up
-              </Typography>
-              <Box
-                component="form"
-                noValidate
-                onSubmit={handleSubmit}
-                sx={{ mt: 3 }}
-              >
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="given-name"
-                      name="firstName"
-                      required
-                      fullWidth
-                      id="firstName"
-                      label="First Name"
-                      autoFocus
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <PersonIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <PersonIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email"
-                      name="email"
-                      autoComplete="email"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <EmailIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="password"
-                      label="Password"
-                      name="password"
-                      type="password"
-                      autoComplete="new-password"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <LockIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="reEnterPassword"
-                      label="Re-enter Password"
-                      type="password"
-                      id="reEnterPassword"
-                      autoComplete="new-password"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <LockIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2, borderRadius: 3 }}
-                >
-                  Sign Up
-                </Button>
-                <Grid container justifyContent="center">
-                  <Grid item>
-                    <Link href="#" variant="body2" onClick={handleSignIn}>
-                      Already have an account? Sign in
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
-            <Copyright sx={{ mt: 5 }} />
-          </Container>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+            Facebook
+          </Button>
+        </Box>
+
+        <p className="text-base text-center text-slate-700">
+          Already have an account?{" "}
+          <a className="text-blue-700" href="/sign-in">
+            Sign In
+          </a>
+        </p>
+
+        <p className="text-sm text-center text-slate-700">
+          Copyright ©.{" "}
+          <span className="underline">The Jockalois Enterprise</span> 2024
+        </p>
+      </div>
+    </div>
   );
 }

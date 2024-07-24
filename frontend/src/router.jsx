@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/general/homepage/HomePage";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import SignUp from "./pages/general/register/Sign-up";
-import Products from "./pages/Products";
+import Products from "./pages/AllProducts";
 import Inbox from "./pages/admin/inbox/Inbox";
 import Settings from "./pages/admin/setting/Settings";
 import Team1 from "./pages/admin/team/Team1";
@@ -18,6 +18,8 @@ import App from "./App";
 import Admin from "./pages/admin/Admin";
 import TopSellers from "./pages/admin/top_sellers/TopSellers";
 import SignIn from "./pages/general/login/Sign-in";
+import ProductStock from "./pages/admin/manage_product/ManageProducts";
+import AllProducts from "./pages/AllProducts";
 
 const router = createBrowserRouter([
   {
@@ -62,7 +64,7 @@ const router = createBrowserRouter([
       },
       {
         path: "all-products",
-        element: <Products />,
+        element: <AllProducts />,
       },
       {
         path: "top-sellers",
@@ -78,7 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: "product-stock",
-        element: <OrderLists />,
+        element: <ProductStock />,
       },
       {
         path: "pricing",

@@ -1,7 +1,6 @@
-import React from 'react';
-import './ProductCard2.modules.css';
+import "./AdminProductCard.modules.css";
 
-const ProductCard = ({ name, price, piecesLeft, discount, onClick }) => {
+const AdminProductCard = ({ name, price, piecesLeft, discount, onClick }) => {
   return (
     <div className="product-card2" onClick={onClick}>
       {discount && <div className="discount-tag">{discount}</div>}
@@ -15,4 +14,4 @@ const ProductCard = ({ name, price, piecesLeft, discount, onClick }) => {
   );
 };
 
-export default ProductCard;
+export default AdminProductCard;
