@@ -7,7 +7,7 @@
     margin: 10px;
     position: relative;
     flex-shrink: 0; /* Ensure cards don't shrink */
-    height: 320px;
+    height: 360px;
     cursor: pointer;
   }
   

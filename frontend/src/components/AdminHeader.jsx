@@ -41,67 +41,78 @@ const AdminHeader = ({ toggleSidebar }) => {
 
   return (
     <header className="header2 w-full">
-      <img
-        src={menuIcon}
-        alt="Menu"
-        className="icon2 menu-icon2 block sm:hidden"
-        onClick={toggleSidebar}
-      />
-
-      <img
-        onClick={() => navigate("/")}
-        src={logo}
-        alt="Logo"
-        className="logo2 cursor-pointer"
-      />
-      <img
-        src={notificationIcon}
-        alt={t("Notification")}
-        className="icon2 notification-icon mr-10"
-      />
-
-      <div className="profile">
-        <img src={profilePic} alt="Profile" className="profile-pic" />
-        <div className="profile-info">
-          <span className="profile-name">Lucy</span>
-          <span className="profile-role">{t("Admin")}</span>
-        </div>
+      <div className="flex flex-row items-center">
         <img
-          src={downArrow2}
-          alt="Down Arrow"
-          className="icon2 down-arrow profile-arrow"
-          onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+          src={menuIcon}
+          alt="Menu"
+          className="icon2 menu-icon2 block sm:hidden "
+          onClick={toggleSidebar}
         />
-        {profileDropdownOpen && (
-          <div className="profile-dropdown" ref={profileDropdownRef}>
-            <div className="profile-option">
-              <img
-                src={manageAccountIcon}
-                alt="Manage Account"
-                className="icon2"
-              />
-              <span className="profile-option-text">{t("Manage Account")}</span>
-            </div>
-            <div className="profile-option">
-              <img
-                src={changePasswordIcon}
-                alt="Change Password"
-                className="icon2"
-              />
-              <span className="profile-option-text">
-                {t("Change Password")}
-              </span>
-            </div>
-            <div className="profile-option">
-              <img src={activityLogIcon} alt="Activity Log" className="icon2" />
-              <span className="profile-option-text">{t("Activity Log")}</span>
-            </div>
-            <div className="profile-option" onClick={handleLogout}>
-              <img src={logoutIcon} alt="Log out" className="icon2" />
-              <span className="profile-option-text">{t("Log out")}</span>
-            </div>
+
+        <img
+          onClick={() => navigate("/")}
+          src={logo}
+          alt="Logo"
+          className="logo2 cursor-pointer ml-2 sm:ml-0"
+        />
+      </div>
+
+      <div className="flex flex-row items-center gap-4">
+        <img src={notificationIcon} alt={t("Notification")} className="icon2" />
+
+        <div className="flex flex-row items-center gap-3">
+          <img
+            src={profilePic}
+            alt="Profile"
+            className="w-[35px] h-[35px] rounded-full "
+          />
+          <div className="profile-info">
+            <span className="profile-name">Lucy</span>
+            <span className="profile-role">{t("Admin")}</span>
           </div>
-        )}
+          <img
+            src={downArrow2}
+            alt="Down Arrow"
+            className="icon2 down-arrow profile-arrow"
+            onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+          />
+          {profileDropdownOpen && (
+            <div className="profile-dropdown" ref={profileDropdownRef}>
+              <div className="profile-option">
+                <img
+                  src={manageAccountIcon}
+                  alt="Manage Account"
+                  className="icon2"
+                />
+                <span className="profile-option-text">
+                  {t("Manage Account")}
+                </span>
+              </div>
+              <div className="profile-option">
+                <img
+                  src={changePasswordIcon}
+                  alt="Change Password"
+                  className="icon2"
+                />
+                <span className="profile-option-text">
+                  {t("Change Password")}
+                </span>
+              </div>
+              <div className="profile-option">
+                <img
+                  src={activityLogIcon}
+                  alt="Activity Log"
+                  className="icon2"
+                />
+                <span className="profile-option-text">{t("Activity Log")}</span>
+              </div>
+              <div className="profile-option" onClick={handleLogout}>
+                <img src={logoutIcon} alt="Log out" className="icon2" />
+                <span className="profile-option-text">{t("Log out")}</span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

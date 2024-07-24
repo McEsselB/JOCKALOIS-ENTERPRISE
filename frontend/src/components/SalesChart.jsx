@@ -1,10 +1,30 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
-import './SalesChart.css';
+/* eslint-disable react/prop-types */
+import { useEffect, useRef, useState } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import "./SalesChart.css";
 
 // Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 const monthData = {
   January: [30, 45, 28, 50, 45, 40, 35, 60, 30, 40, 50, 30],
@@ -22,12 +42,16 @@ const monthData = {
 };
 
 const getMonthName = (monthIndex) => {
-  return new Date(2024, monthIndex).toLocaleString('default', { month: 'long' });
+  return new Date(2024, monthIndex).toLocaleString("default", {
+    month: "long",
+  });
 };
 
-const SalesChart = () => {
+const SalesChart = ({ width }) => {
   const chartRef = useRef(null);
-  const [selectedMonth, setSelectedMonth] = useState(getMonthName(new Date().getMonth()));
+  const [selectedMonth, setSelectedMonth] = useState(
+    getMonthName(new Date().getMonth())
+  );
   const [chartData, setChartData] = useState(monthData[selectedMonth]);
 
   useEffect(() => {
@@ -50,16 +74,29 @@ const SalesChart = () => {
 
   const createGradient = (ctx, area) => {
     const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-    gradient.addColorStop(0, '#fff');
-    gradient.addColorStop(1, '#BFE8FF');
+    gradient.addColorStop(0, "#fff");
+    gradient.addColorStop(1, "#BFE8FF");
     return gradient;
   };
 
   const data = {
-    labels: ['5k', '10k', '15k', '20k', '25k', '30k', '35k', '40k', '45k', '50k', '55k', '60k'],
+    labels: [
+      "5k",
+      "10k",
+      "15k",
+      "20k",
+      "25k",
+      "30k",
+      "35k",
+      "40k",
+      "45k",
+      "50k",
+      "55k",
+      "60k",
+    ],
     datasets: [
       {
-        label: 'Sales',
+        label: "Sales",
         data: chartData,
         fill: true,
         backgroundColor: (context) => {
@@ -72,9 +109,9 @@ const SalesChart = () => {
           }
           return createGradient(ctx, chartArea);
         },
-        borderColor: '#3498db',
-        pointBackgroundColor: '#3498db',
-        pointBorderColor: '#3498db',
+        borderColor: "#3498db",
+        pointBackgroundColor: "#3498db",
+        pointBorderColor: "#3498db",
       },
     ],
   };
@@ -94,7 +131,7 @@ const SalesChart = () => {
   };
 
   return (
-    <div className="sales-chart">
+    <div style={{ width: width - 300 }} className="sales-chart">
       <div className="sales-chart-header">
         <h2>Sales Details</h2>
         <div className="month-selector">

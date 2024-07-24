@@ -4,7 +4,7 @@ import AdminHeader from "../../components/AdminHeader";
 
 function Admin() {
   return (
-    <>
+    <div className="">
       <AdminHeader />
       <div className="flex flex-row">
         <aside>
@@ -14,7 +14,7 @@ function Admin() {
           <Outlet />
         </main>
       </div>
-    </>
+    </div>
   );
 }
 
