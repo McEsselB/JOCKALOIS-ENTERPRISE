@@ -1,5 +1,3 @@
-import "./Products.modules.css";
-
 const Pricing = () => {
   return (
     <div className="products-page">
