@@ -1,5 +1,3 @@
-import "./Products.modules.css";
-
 const OrderLists = () => {
   return (
     <div className="products-page">
