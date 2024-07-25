@@ -1,29 +1,30 @@
 import User from "../../../models/User.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { errorHandler } from "../../../utils/error.js";
 
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Fill in all fields" });
+      return next(errorHandler(400, "Fill in all fields"));
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid Credentials" });
+      return next(errorHandler(400, "Invalid Credentials"));
     }
 
     const isPassword = await bcrypt.compare(password, user?.password || "");
 
     if (!isPassword) {
-      return res.status(400).json({ message: "Invalid Credentials" });
+      return next(errorHandler(400, "Invalid Credentials"));
     }
 
     const tokenData = {
-      id: user.id,
+      id: user._id,
     };
 
     const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
@@ -35,11 +36,12 @@ export const login = async (req, res, next) => {
       secure: true,
     });
 
+    const { password: pass, ...rest } = user._doc;
+
     return res
       .status(201)
-      .json({ data: token, message: "User Logged In Successfully" });
+      .json({ data: rest, message: "User Logged In Successfully" });
   } catch (error) {
-    // next(error);
-    return res.status(400).json(error);
+    next(error);
   }
 };

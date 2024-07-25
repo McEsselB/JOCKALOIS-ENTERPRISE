@@ -6,6 +6,7 @@ body {
 
 .header2 {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   background: linear-gradient(to right, #6881C1, #6881C1, #B3A069);
@@ -25,29 +26,11 @@ body {
   width: 30px;
 }
 
-.search-container2 {
-  position: relative;
-  flex-grow: 1;
-  max-width: 300px;
-  margin-right: 20px;
-}
 
-.search-icon2 {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-}
 
-.search-box2 {
-  width: 100%;
-  padding: 5px 10px 5px 30px;
-  border-radius: 20px;
-  border: none;
-  height: 30px;
-}
+
+
+
 
 .logo2 {
   margin-right: 190px;
@@ -76,72 +59,21 @@ body {
   font-weight: bold;
 }
 
-.language-selector {
-  display: flex;
-  align-items: center;
-  margin-right: 25px;
-  position: relative;
-}
-
-.flag-icon {
-  margin-right: 10px;
-  width: 35px;
-}
-
-.language-text {
-  margin-right: 5px;
-  color: #404040;
-}
 
 .down-arrow {
   margin-right: 5px;
 }
 
-.language-dropdown {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  width: 180px;
-}
 
-.lang-main {
-  margin-left: 8px;
-  font-size: 17px;
-}
-
-.language-option {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.language-option:hover {
-  background-color: #f0f0f0;
-}
 
 .selected-icon {
   margin-left: auto;
   color: #404040;
 }
 
-.profile {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
 
-.profile-pic {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  margin-right: 10px;
-  margin-left: -30px;
-}
+
+
 
 .profile-info {
   display: flex;
@@ -190,39 +122,3 @@ body {
   margin-right: 10px;
 }
 
-/* Tablet view adjustments */
-@media (max-width: 768px) {
-  .search-container2 {
-    display: none;
-  }
-
-  .search-icon2 {
-    display: inline-block;
-    margin-right: 20px;
-  }
-
-  .logo2 {
-    margin-right: auto;
-  }
-
-  .profile-pic {
-    margin-right: 10px;
-  }
-
-  .profile-info {
-    margin-right: 30px;
-  }
-
-  .profile-name {
-    font-weight: bold;
-  }
-
-  .down-arrow {
-    margin-right: 25px;
-  }
-
-  .notification-icon {
-    margin-right: 15px;
-    position: relative;
-  }
-}

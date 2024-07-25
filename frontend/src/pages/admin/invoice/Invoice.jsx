@@ -1,9 +1,12 @@
-const OrderLists = () => {
+import React from 'react';
+import './Invoice.modules.css';
+
+const Invoice = () => {
   return (
     <div className="products-page">
       <div className="products-content">
         <main className="main-content">
-          <h2>Products</h2>
+          <h2>Invoice</h2>
           <div className="products-list">
             {/* You can add the list or table of products here */}
             <p>Product 1</p>
@@ -17,4 +20,4 @@ const OrderLists = () => {
   );
 };
 
-export default OrderLists;
+export default Invoice;

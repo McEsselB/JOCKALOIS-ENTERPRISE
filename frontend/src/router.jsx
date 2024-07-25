@@ -2,22 +2,27 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/general/homepage/HomePage";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import SignUp from "./pages/general/register/Sign-up";
-import Products from "./pages/Products";
+import Products from "./pages/AllProducts";
 import Inbox from "./pages/admin/inbox/Inbox";
 import Settings from "./pages/admin/setting/Settings";
-import Team1 from "./pages/admin/team/Team1";
+import Team1 from "./pages/admin/team/Team";
 import Team from "./pages/admin/team/Team";
 import ProductDisplay from "./pages/ProductDisplay";
 import Pricing from "./pages/Pricing";
-import OrderLists from "./pages/Orderlists";
-import Table from "./pages/Table";
+import OrderLists from "./pages/admin/orderlists/Orderlists";
+import Table from "./pages/admin/table/Table";
 import Cart from "./pages/client/cart/CartPage";
 import Checkout from "./pages/client/checkout/Checkout";
 import ContactUs from "./components/ContactUs";
+import Contact from './pages/admin/contact/Contact';
+import Invoice from './pages/admin/invoice/Invoice';
 import App from "./App";
+import Calendar from './pages/admin/calendar/Calendar';
 import Admin from "./pages/admin/Admin";
 import TopSellers from "./pages/admin/top_sellers/TopSellers";
 import SignIn from "./pages/general/login/Sign-in";
+import ProductStock from "./pages/admin/manage_product/ManageProducts";
+import AllProducts from "./pages/AllProducts";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +46,10 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
+        path: "checkout",
+        element: <Checkout />,
+      },
+      {
         path: "products",
         element: <Products />,
       },
@@ -62,7 +71,7 @@ const router = createBrowserRouter([
       },
       {
         path: "all-products",
-        element: <Products />,
+        element: <AllProducts />,
       },
       {
         path: "top-sellers",
@@ -78,7 +87,7 @@ const router = createBrowserRouter([
       },
       {
         path: "product-stock",
-        element: <OrderLists />,
+        element: <ProductStock />,
       },
       {
         path: "pricing",
@@ -86,23 +95,23 @@ const router = createBrowserRouter([
       },
       {
         path: "calendar",
-        element: <Pricing />,
+        element: <Calendar />,
       },
       {
         path: "contact",
-        element: <Pricing />,
+        element: <Contact />,
       },
       {
         path: "invoice",
-        element: <Pricing />,
+        element: <Invoice />,
       },
       {
         path: "team",
-        element: <Pricing />,
+        element: <Team />,
       },
       {
         path: "table",
-        element: <Pricing />,
+        element: <Table />,
       },
       {
         path: "settings",

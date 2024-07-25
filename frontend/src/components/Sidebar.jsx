@@ -1,102 +1,155 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import "./Sidebar.css";
-import dashboardIcon from "../assets/images/dashboard-icon.png";
-import productsIcon from "../assets/images/products-icon.png";
-import favoritesIcon from "../assets/images/favorites-icon.png";
-import inboxIcon from "../assets/images/inbox-icon.png";
-import orderListsIcon from "../assets/images/order-lists-icon.png";
-import productStockIcon from "../assets/images/product-stock-icon.png";
-import pricingIcon from "../assets/images/pricing-icon.png";
-import calendarIcon from "../assets/images/calendar-icon.png";
-import contactIcon from "../assets/images/contact-icon.png";
-import invoiceIcon from "../assets/images/invoice-icon.png";
-import teamIcon from "../assets/images/team-icon.png";
-import tableIcon from "../assets/images/table-icon.png";
-import settingsIcon from "../assets/images/settings-icon.png";
-import logoutIcon from "../assets/images/logout-icon.png";
+import React from 'react';
+import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
+import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  MenuOutlined as MenuOutlinedIcon,
+  DashboardOutlined as DashboardOutlinedIcon,
+  ShoppingCartOutlined as ShoppingCartOutlinedIcon,
+  StarOutlineOutlined as StarOutlineOutlinedIcon,
+  MailOutlineOutlined as MailOutlineOutlinedIcon,
+  ListAltOutlined as ListAltOutlinedIcon,
+  Inventory2Outlined as Inventory2OutlinedIcon,
+  CalendarTodayOutlined as CalendarTodayOutlinedIcon,
+  ContactMailOutlined as ContactMailOutlinedIcon,
+  DescriptionOutlined as DescriptionOutlinedIcon,
+  GroupOutlined as GroupOutlinedIcon,
+  TableChartOutlined as TableChartOutlinedIcon,
+  SettingsOutlined as SettingsOutlinedIcon,
+  ExitToAppOutlined as ExitToAppOutlinedIcon,
+} from "@mui/icons-material";
 
-const Sidebar = () => {
-  const { t } = useTranslation();
-  const [selected, setSelected] = useState("");
+const Sidebar22 = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { collapseSidebar, collapsed } = useProSidebar();
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  useEffect(() => {
-    const currentPath = location.pathname.split("/")[1].replace(/-/g, " ");
-    setSelected(currentPath.charAt(0).toUpperCase() + currentPath.slice(1));
-  }, [location]);
-
-  const handleNavigation = (path) => {
-    if (path === "admin/logout") {
-      navigate("/");
+  const handleMenuClick = () => {
+    if (window.innerWidth < 768) {
+      setIsOpen(!isOpen);
     } else {
-      setSelected(path);
-      navigate(`/${path}`);
+      collapseSidebar();
+    }
+  };
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+    if (window.innerWidth < 768) {
+      setIsOpen(false);
     }
   };
 
   const menuItems = [
-    { name: "Dashboard", icon: dashboardIcon, path: "" },
-    { name: "Products", icon: productsIcon, path: "all-products" },
-    { name: "Top Sellers", icon: favoritesIcon, path: "top-sellers" },
-    { name: "Inbox", icon: inboxIcon, path: "inbox" },
-    { name: "Order Lists", icon: orderListsIcon, path: "order-lists" },
-    { name: "Product Stock", icon: productStockIcon, path: "product-stock" },
-    { name: "Pricing", icon: pricingIcon, path: "pricing" },
-    { name: "Calendar", icon: calendarIcon, path: "calendar" },
-    { name: "Contact", icon: contactIcon, path: "contact" },
-    { name: "Invoice", icon: invoiceIcon, path: "invoice" },
-    { name: "Team", icon: teamIcon, path: "team" },
-    { name: "Table", icon: tableIcon, path: "table" },
-    { name: "Settings", icon: settingsIcon, path: "settings" },
-    { name: "Logout", icon: logoutIcon, path: "logout" },
+    { name: 'Dashboard', icon: <DashboardOutlinedIcon />, path: "" },
+    { name: 'All Products', icon: <ShoppingCartOutlinedIcon />, path: "all-products" },
+    { name: 'Top Sellers', icon: <StarOutlineOutlinedIcon />, path: 'top-sellers' },
+    { name: 'Inbox', icon: <MailOutlineOutlinedIcon />, path: 'inbox' },
+    { name: 'Order Lists', icon: <ListAltOutlinedIcon />, path: 'order-lists' },
+    { name: 'Manage Products', icon: <Inventory2OutlinedIcon />, path: 'product-stock' },
+    { name: 'Calendar', icon: <CalendarTodayOutlinedIcon />, path: 'calendar' },
+    { name: 'Contact', icon: <ContactMailOutlinedIcon />, path: 'contact' },
+    { name: 'Invoice', icon: <DescriptionOutlinedIcon />, path: 'invoice' },
+    { name: 'Team', icon: <GroupOutlinedIcon />, path: 'team' },
+    { name: 'Table', icon: <TableChartOutlinedIcon />, path: 'table' },
+    { name: 'Settings', icon: <SettingsOutlinedIcon />, path: 'settings' },
+    { name: 'Logout', icon: <ExitToAppOutlinedIcon />, path: '/ad-login' }
   ];
 
   return (
-    <aside className="sidebar">
-      <div className="menu-section">
-        {menuItems.slice(0, 6).map((item) => (
-          <div
-            key={item.name}
-            className={`menu-item ${selected === item.name ? "selected" : ""}`}
-            onClick={() => handleNavigation(`admin/${item.path}`)}
+    <div id="app" style={{ height: "100vh", display: "flex" }}>
+      <Sidebar
+        style={{
+          height: "100vh",
+          overflowY: "auto",
+          marginBottom: "0px",
+          zIndex: isOpen ? 1000 : 1,
+          position: isOpen ? 'fixed' : 'relative',
+        }}
+        collapsed={collapsed || window.innerWidth < 768}
+        toggled={isOpen}
+        onBackdropClick={() => setIsOpen(false)}
+      >
+        <Menu>
+          <MenuItem
+            icon={<MenuOutlinedIcon />}
+            onClick={handleMenuClick}
+            style={{ textAlign: "center" }}
           >
-            <img src={item.icon} alt={item.name} />
-            <span>{t(item.name)}</span>
-          </div>
-        ))}
-      </div>
-      <hr />
-      <div className="menu-section">
-        <span className="section-title">{t("PAGES")}</span>
-        {menuItems.slice(6, 12).map((item) => (
-          <div
-            key={item.name}
-            className={`menu-item ${selected === item.name ? "selected" : ""}`}
-            onClick={() => handleNavigation(`admin/${item.path}`)}
-          >
-            <img src={item.icon} alt={item.name} />
-            <span>{t(item.name)}</span>
-          </div>
-        ))}
-      </div>
-      <hr />
-      <div className="menu-section">
-        {menuItems.slice(12).map((item) => (
-          <div
-            key={item.name}
-            className={`menu-item ${selected === item.name ? "selected" : ""}`}
-            onClick={() => handleNavigation(`admin/${item.path}`)}
-          >
-            <img src={item.icon} alt={item.name} />
-            <span>{t(item.name)}</span>
-          </div>
-        ))}
-      </div>
-    </aside>
-  );
-};
+            <h2 style={{ marginLeft: "-80px" }}>Menu</h2>
+          </MenuItem>
+          {menuItems.map(item => (
+            <MenuItem
+              key={item.name}
+              icon={item.icon}
+              onClick={() => handleMenuItemClick(item.path)}
+              active={location.pathname === `/${item.path}`}
+              className={location.pathname === `/${item.path}` ? 'selected' : ''}
+              style={{
+                backgroundColor: location.pathname === `/${item.path}` ? '#3b82f6' : 'transparent',
+                transition: 'background-color 0.3s ease',
+                color: location.pathname === `/${item.path}` ? 'white' : 'inherit',
+              }}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Sidebar>
+      <style jsx>{`
+        body {
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", 
+            "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          height: 100vh;
+        }
 
-export default Sidebar;
+        #app {
+          height: 100vh;
+          display: flex;
+        }
+
+        .sidebar {
+          width: 190px;
+          height: 100vh;
+          position: fixed;
+          top: 0;
+          left: 0;
+          overflow-y: auto;
+          background-color: white;
+          padding: 20px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          box-sizing: border-box;
+          z-index: 1000;
+        }
+
+        .sidebar::-webkit-scrollbar {
+          width: 0px;
+          background: transparent;
+        }
+
+        .sidebar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
+        .menu-item.selected {
+          background-color: #3b82f6;
+        }
+
+        .menu-item.selected:hover {
+          background-color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+          .sidebar {
+            display: ${isOpen ? 'block' : 'none'};
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default Sidebar22;

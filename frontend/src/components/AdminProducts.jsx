@@ -1,14 +1,14 @@
-import React from 'react';
-import ProductCard2 from './ProductCard2';
-import './Section2.modules.css';
+/* eslint-disable react/prop-types */
+import "./AdminProducts.modules.css";
+import AdminProductCard from "./AdminProductCard";
 
-const Section2 = ({ title, products, onProductClick }) => {
+const AdminProducts = ({ title, products, onProductClick }) => {
   return (
     <div className="section2">
       <h2>{title}</h2>
       <div className="product-grid">
         {products.map((product, index) => (
-          <ProductCard2
+          <AdminProductCard
             key={index}
             name={product.name}
             price={product.price}
@@ -22,4 +22,4 @@ const Section2 = ({ title, products, onProductClick }) => {
   );
 };
 
-export default Section2;
+export default AdminProducts;

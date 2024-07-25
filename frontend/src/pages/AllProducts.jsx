@@ -1,7 +1,7 @@
-import Section2 from "../components/Section2";
-import "./Products.modules.css";
+import Section2 from "../components/AdminProducts";
+import "./AllProducts.modules.css";
 
-const AllProducts = [
+const products = [
   {
     name: "Fire Extinguisher",
     price: "10.00",
@@ -100,14 +100,14 @@ const AllProducts = [
   },
 ];
 
-const Products = () => {
+const AllProducts = () => {
   return (
     <div className="products-page">
       <div className="products-content">
         <main className="main-content">
           <h2>Products</h2>
           <div className="products-list">
-            <Section2 products={AllProducts} />
+            <Section2 products={products} />
           </div>
         </main>
       </div>
@@ -115,4 +115,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default AllProducts;

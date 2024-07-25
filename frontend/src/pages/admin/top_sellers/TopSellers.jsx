@@ -4,7 +4,7 @@ const TopSellers = () => {
     <div className="products-page">
       <div className="products-content">
         <main className="main-content">
-          <h2>Products</h2>
+          <h2>Top Sellers</h2>
           <div className="products-list">
             {/* You can add the list or table of products here */}
             <p>Product 1</p>
