@@ -14,6 +14,7 @@ This is the backend repository for JOCKALOIS-ENTERPRISE. It serves as the backen
    npm install
    ```
 3. **Set up environment variables**:
+   Skip this section(I Have done it)
    Create a `.env` file in the root directory of the backend directory and add the following variables:
    ```
    PORT=8000

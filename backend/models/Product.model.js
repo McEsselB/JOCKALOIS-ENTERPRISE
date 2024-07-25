@@ -10,4 +10,5 @@ const productSchema = new Schema({
   images: Array,
 });
 
-export default model("Product", productSchema);
+const Products = model("Product", productSchema);
+export default Products;

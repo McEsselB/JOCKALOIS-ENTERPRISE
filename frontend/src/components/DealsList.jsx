@@ -81,7 +81,7 @@ const getMonthName = (monthIndex) => {
   });
 };
 
-const DealsList = ({ width }) => {
+const DealsList = () => {
   const [selectedMonth, setSelectedMonth] = useState(
     getMonthName(new Date().getMonth())
   );
@@ -93,7 +93,7 @@ const DealsList = ({ width }) => {
   };
 
   return (
-    <div style={{ width: width - 300 }} className="deals-list ">
+    <div className="deals-list ">
       <div className="deals-list-header">
         <h2>Deals Details</h2>
         <div className="month-selector">

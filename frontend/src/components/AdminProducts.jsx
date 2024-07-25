@@ -7,12 +7,13 @@ const AdminProducts = ({ title, products, onProductClick }) => {
     <div className="section2">
       <h2>{title}</h2>
       <div className="product-grid">
-        {products.map((product, index) => (
+        {products?.map((product, index) => (
           <AdminProductCard
             key={index}
+            images={product.images}
             name={product.name}
             price={product.price}
-            piecesLeft={product.piecesLeft}
+            piecesLeft={product.numberOfProductsAvailable}
             discount={product.discount}
             onClick={() => onProductClick(product)}
           />

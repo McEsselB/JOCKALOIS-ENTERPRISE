@@ -1,10 +1,22 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import AdminHeader from "../../components/AdminHeader";
-import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import { useUserContext } from "../../context/userContext";
 
 function Admin() {
+  const { fetchUserDetails, currentUser } = useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  if (currentUser?.role !== "ADMIN") {
+    return navigate("/");
+  }
+
   return (
     <div className="">
       <AdminHeader />
@@ -16,7 +28,6 @@ function Admin() {
         </aside>
         <main className="flex-1">
           <Outlet />
-          <Toaster />
         </main>
       </div>
     </div>

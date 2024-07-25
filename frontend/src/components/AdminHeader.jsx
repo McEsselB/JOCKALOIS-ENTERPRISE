@@ -11,16 +11,39 @@ import manageAccountIcon from "../assets/images/manage-account.png";
 import changePasswordIcon from "../assets/images/change-password.png";
 import activityLogIcon from "../assets/images/activity-log.png";
 import logoutIcon from "../assets/images/logout.png";
+import { useUserContext } from "../context/userContext";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const AdminHeader = ({ toggleSidebar }) => {
+  const navigate = useNavigate();
+
+  const { currentUser } = useUserContext();
+
+  // useEffect(() => {
+  //   fetchUserDetails();
+  //   if (!currentUser || currentUser?.role === "ADMIN") {
+  //     return navigate("/");
+  //   }
+  // }, [currentUser, fetchUserDetails, navigate]);
+
   const { t } = useTranslation();
-  const navigate = useNavigate(); // Ensure the navigate function is available
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const profileDropdownRef = useRef(null);
 
-  const handleLogout = () => {
-    navigate("/sign-in");
+  const handleLogout = async () => {
+    axios
+      .get("/api/auth/logout", { withCredentials: true })
+      .then(() => {
+        toast.success("Logged Out");
+        navigate("/");
+        navigate(0);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong");
+      });
   };
 
   const handleClickOutside = (event) => {
@@ -62,13 +85,13 @@ const AdminHeader = ({ toggleSidebar }) => {
 
         <div className="flex flex-row items-center gap-3">
           <img
-            src={profilePic}
+            src={currentUser?.profilePicture}
             alt="Profile"
             className="w-[35px] h-[35px] rounded-full "
           />
           <div className="profile-info">
-            <span className="profile-name">Lucy</span>
-            <span className="profile-role">{t("Admin")}</span>
+            <span className="profile-name">{currentUser?.username}</span>
+            <span className="profile-role">{currentUser?.role}</span>
           </div>
           <img
             src={downArrow2}

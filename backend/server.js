@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 import auth from "./routes/general/auth.js";
 import admin from "./routes/admin/admin.js";
+import products from "./routes/general/product.js";
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ app.post("/api/", (req, res) => {
 
 app.use("/api/auth", auth);
 app.use("/api/admin", admin);
+app.use("/api/", products);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -30,11 +32,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8000, () => {
+app.listen(process.env.PORT, () => {
   mongoose
-    .connect(
-      "mongodb+srv://kelvinmhacwilson:MakeMoney247@cluster0.yxhb8d4.mongodb.net/JOCKALOIS-ENTERPRISE"
-    )
+    .connect(process.env.MONGO_DB_CONNECTION_STRING)
     .then(() => {
       console.log("Connected to DB");
       console.log(`Server listening on PORT ${process.env.PORT}`);

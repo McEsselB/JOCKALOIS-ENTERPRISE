@@ -3,37 +3,32 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ManageProducts.modules.css";
 import UploadProduct from "../../../components/UploadProduct";
+import axios from "axios";
 
 const ManageProducts = () => {
-  const initialProducts = [
-    {
-      image: "/images/fire_extinguisher.jpg",
-      name: "Fire Extinguisher",
-      category: "Fire Safety",
-      price: 10.0,
-      piece: 6,
-      colors: ["#FF0000", "#000000"],
-    },
-    {
-      image: "/images/smoke_detector.jpg",
-      name: "Smoke Detector",
-      category: "Fire Safety",
-      price: 15.0,
-      piece: 4,
-      colors: ["#FFFFFF"],
-    },
-  ];
+  const [products, setProducts] = useState();
+  const fetchAllProducts = async () => {
+    await axios
+      .get("/api/get-all-products")
+      .then((res) => {
+        setProducts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const [toggleAddProduct, setToggleAddProduct] = useState(false);
+  useEffect(() => {
+    fetchAllProducts();
+  }, []);
 
-  const [products, setProducts] = useState(initialProducts);
+  const [toggleAddProduct, setToggleAddProduct] = useState(true);
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const totalPages = Math.ceil(products?.length / productsPerPage);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = products?.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -66,7 +61,7 @@ const ManageProducts = () => {
 
   const handleDelete = (index) => {
     if (window.confirm("Do you want to delete this product?")) {
-      const updatedProducts = products.filter((_, i) => i !== index);
+      const updatedProducts = products?.filter((_, i) => i !== index);
       setProducts(updatedProducts);
     }
   };
@@ -100,11 +95,11 @@ const ManageProducts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentProducts.map((product, index) => (
+                    {currentProducts?.map((product, index) => (
                       <tr key={index}>
                         <td>
                           <img
-                            src={product.image}
+                            src={product.images[0]}
                             alt={product.name}
                             className="product-image"
                           />
@@ -113,8 +108,8 @@ const ManageProducts = () => {
                         <td className="hidden md:table-cell">
                           {product.category}
                         </td>
-                        <td>${product.price.toFixed(2)}</td>
-                        <td>{product.piece}</td>
+                        <td>${product.price}</td>
+                        <td>{product.numberOfProductsAvailable}</td>
                         <td className="hidden md:table-cell">
                           {product.colors.map((color, idx) => (
                             <span
@@ -148,7 +143,7 @@ const ManageProducts = () => {
                   </button>
                   <span>
                     Showing {indexOfFirstProduct + 1}-{indexOfLastProduct} of{" "}
-                    {products.length}
+                    {products?.length}
                   </span>
                   <button
                     onClick={nextPage}

@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 export const google = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { email, profilePicture, username } = req.body;
 
     const user = await User.findOne({ email });
 
@@ -27,11 +27,14 @@ export const google = async (req, res, next) => {
       const hashedPassword = await bcrypt.hash(generatedPassword, 10);
 
       const newUser = await User.create({
+        email,
         password: hashedPassword,
         isEmailVerified: true,
+        profilePicture,
+        username,
       });
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
 

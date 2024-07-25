@@ -6,7 +6,7 @@ const InfoBox = ({ title, value, percentage, icon }) => {
   const [percent, ...textParts] = percentage.split(" ");
 
   return (
-    <div className="px-10 border w-full border-slate-400 py-5 rounded-lg">
+    <div className="px-10 border w-full  border-slate-400 py-5 rounded-lg">
       <div className="">
         <div className="">
           <div className="info-title-icon">

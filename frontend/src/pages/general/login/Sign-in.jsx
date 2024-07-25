@@ -11,8 +11,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../../context/userContext";
 
 export default function SignIn() {
+  const { fetchUserDetails } = useUserContext();
   const navigate = useNavigate();
 
   const [data, setData] = useState({
@@ -28,16 +30,20 @@ export default function SignIn() {
       const result = await signInWithPopup(auth, provider);
 
       await axios
-        .post("/api/auth/google", {
-          username: result.user.displayName,
-          email: result.user.email,
-          profilePicture: result.user.photoURL,
-        })
-        .then((res) => {
+        .post(
+          "/api/auth/google",
+          {
+            username: result.user.displayName,
+            email: result.user.email,
+            profilePicture: result.user.photoURL,
+          },
+          { withCredentials: true }
+        )
+        .then(() => {
           toast.success("Log in successful");
+          fetchUserDetails();
           navigate("/");
-
-          console.log(res.data);
+          navigate(0);
         })
         .catch((err) => {
           console.log(err);
@@ -51,9 +57,10 @@ export default function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     await axios
-      .post("/api/auth/login", data)
+      .post("/api/auth/login", data, { withCredentials: true })
       .then(() => {
         toast.success("Logged In");
+        fetchUserDetails();
         navigate("/");
       })
       .catch((err) => {

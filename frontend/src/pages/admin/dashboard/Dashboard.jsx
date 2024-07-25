@@ -2,6 +2,7 @@ import InfoBox from "../../../components/InfoBox";
 import SalesChart from "../../../components/SalesChart";
 import DealsList from "../../../components/DealsList";
 import "./Dashboard.css";
+import axios from "axios";
 
 import userIcon2 from "../../../assets/images/user2.png";
 import orderIcon from "../../../assets/images/order.png";
@@ -10,58 +11,76 @@ import pendingIcon from "../../../assets/images/pending.png";
 import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+  // const [width, setWidth] = useState(window.innerWidth);
+  const [pageDetails, setPageDetails] = useState({
+    totalUsers: 0,
+    totalOrders: 0,
+    totalSales: 0,
+    pendingOrders: 0,
+  });
 
-  function handleWidth() {
-    setWidth(window.innerWidth);
-  }
+  // function handleWidth() {
+  //   setWidth(window.innerWidth);
+  // }
+
+  const fetchDisplayInfo = async () => {
+    await axios
+      .get("/api/admin/get-dashboard-info")
+      .then((res) => {
+        setPageDetails(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // useEffect(() => {
+  //   window.addEventListener("resize", handleWidth);
+
+  //   return () => {
+  //     window.removeEventListener("resize", handleWidth);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", handleWidth);
-
-    return () => {
-      window.removeEventListener("resize", handleWidth);
-    };
+    fetchDisplayInfo();
   }, []);
+
+  console.log(pageDetails);
 
   return (
     <div className="dashboard pb-10">
       <div className="dashboard-content">
         <main className="main-content">
           <h2 className="main-content h2">Dashboard</h2>
-          <div
-            className="gap-8 flex flex-row flex-wrap justify-between"
-            style={{ width: width - 300 }}
-          >
+          <div className="grid sm:grid-cols-2 gap-3">
             <InfoBox
               title="Total Users"
-              value="40,689"
+              value={pageDetails.totalUsers}
               percentage="8.5% Up from yesterday"
               icon={userIcon2}
             />
             <InfoBox
               title="Total Orders"
-              value="10,293"
+              value={pageDetails.totalOrders}
               percentage="1.3% Up from past week"
               icon={orderIcon}
             />
             <InfoBox
               title="Total Sales"
-              value="$89,000"
+              value={`$ ${pageDetails.totalSales}`}
               percentage="4.3% Down from yesterday"
               icon={salesIcon}
             />
             <InfoBox
               title="Total Pending"
-              value="2,040"
+              value={pageDetails.pendingOrders}
               percentage="1.8% Up from yesterday"
               icon={pendingIcon}
             />
           </div>
-          <SalesChart width={width} />
+          {/* <SalesChart />
           <div className="hidden sm:flex mt-10">
-            <DealsList width={width} />
-          </div>
+            <DealsList />
+          </div> */}
         </main>
       </div>
     </div>

@@ -58,7 +58,7 @@ export default function SignUp() {
       .post("/api/auth/register", data)
       .then(() => {
         toast.success("Sign up successful");
-        navigate("/");
+        navigate("/sign-in");
       })
       .catch((err) => {
         console.log(err);

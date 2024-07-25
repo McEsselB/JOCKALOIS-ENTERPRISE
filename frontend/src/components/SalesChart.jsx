@@ -47,7 +47,7 @@ const getMonthName = (monthIndex) => {
   });
 };
 
-const SalesChart = ({ width }) => {
+const SalesChart = () => {
   const chartRef = useRef(null);
   const [selectedMonth, setSelectedMonth] = useState(
     getMonthName(new Date().getMonth())
@@ -131,7 +131,7 @@ const SalesChart = ({ width }) => {
   };
 
   return (
-    <div style={{ width: width - 300 }} className="sales-chart">
+    <div className="sales-chart">
       <div className="sales-chart-header">
         <h2>Sales Details</h2>
         <div className="month-selector">
