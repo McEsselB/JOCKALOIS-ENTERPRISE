@@ -15,7 +15,6 @@ import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
-import './styles.css'; // Import the external CSS file
 
 function Sidebar22() {
   const navigate = useNavigate();
@@ -58,7 +57,14 @@ function Sidebar22() {
   return (
     <div id="app" style={{ height: "100vh", display: "flex" }}>
       <Sidebar
-        className={`sidebar ${isOpen ? 'open' : ''}`}
+        style={{
+          height: "100vh",
+          overflowY: "auto",
+          scrollBehavior: "smooth",
+          marginBottom: "0px",
+          zIndex: isOpen ? 1000 : 1,
+          position: isOpen ? 'fixed' : 'relative',
+        }}
         collapsed={collapsed || window.innerWidth < 768}
         toggled={isOpen}
         onBackdropClick={() => setIsOpen(false)}
@@ -76,13 +82,72 @@ function Sidebar22() {
               key={item.name}
               icon={item.icon}
               onClick={() => handleMenuItemClick(item.path)}
-              className={`menu-item ${location.pathname === item.path ? 'selected' : ''}`}
+              active={location.pathname === item.path}
+              className={location.pathname === item.path ? 'selected' : ''}
+              style={{
+                backgroundColor: location.pathname === item.path ? '#3b82f6' : 'transparent',
+                transition: 'background-color 0.3s ease',
+                ...(location.pathname === item.path && { ':hover': { backgroundColor: '#3b82f6' } })
+              }}
             >
               {item.name}
             </MenuItem>
           ))}
         </Menu>
       </Sidebar>
+      <style jsx>{
+        body {
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", 
+            "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          height: 100vh;
+        }
+
+        #app {
+          height: 100vh;
+          display: flex;
+        }
+
+        .sidebar {
+          width: 190px;
+          height: 100vh;
+          position: fixed;
+          top: 0;
+          left: 0;
+          overflow-y: auto;
+          background-color: white;
+          padding: 20px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          box-sizing: border-box;
+          z-index: 1000;
+        }
+
+        .sidebar::-webkit-scrollbar {
+          width: 0px;
+          background: transparent;
+        }
+
+        .sidebar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
+        .menu-item.selected {
+          background-color: #3b82f6;
+        }
+
+        .menu-item.selected:hover {
+          background-color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+          .sidebar {
+            display: ${isOpen ? 'block' : 'none'};
+          }
+        }
+      }</style>
     </div>
   );
 }
