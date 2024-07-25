@@ -28,7 +28,7 @@ export const google = async (req, res, next) => {
 
       const newUser = await User.create({
         password: hashedPassword,
-        ...req.body,
+        isEmailVerified: true,
       });
 
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

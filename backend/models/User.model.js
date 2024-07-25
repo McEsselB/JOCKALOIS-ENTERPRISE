@@ -11,6 +11,7 @@ const userSchema = new Schema(
     email: { type: String, unique: true, require: true },
     password: String,
     role: { type: String, default: "CUSTOMER" },
+    isEmailVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

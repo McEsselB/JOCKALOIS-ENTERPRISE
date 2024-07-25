@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 
 import auth from "./routes/general/auth.js";
+import admin from "./routes/admin/admin.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.post("/api/", (req, res) => {
 });
 
 app.use("/api/auth", auth);
+app.use("/api/admin", admin);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -30,7 +32,9 @@ app.use((err, req, res, next) => {
 
 app.listen(8000, () => {
   mongoose
-    .connect("mongodb+srv://kelvinmhacwilson:MakeMoney247@cluster0.yxhb8d4.mongodb.net/JOCKALOIS-ENTERPRISE")
+    .connect(
+      "mongodb+srv://kelvinmhacwilson:MakeMoney247@cluster0.yxhb8d4.mongodb.net/JOCKALOIS-ENTERPRISE"
+    )
     .then(() => {
       console.log("Connected to DB");
       console.log(`Server listening on PORT ${process.env.PORT}`);

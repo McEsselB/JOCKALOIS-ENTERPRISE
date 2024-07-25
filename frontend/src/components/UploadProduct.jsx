@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import "./UploadProduct.modules.css";
 import { FaCheck, FaCloudUploadAlt } from "react-icons/fa";
+import { uploadImage } from "../utils/uploadImage";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const colorsList = [
   { name: "Red", value: "red" },
@@ -15,77 +17,80 @@ const colorsList = [
   { name: "Pink", value: "pink" },
 ];
 
-const UploadProduct = ({ addProduct }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const existingProduct = location.state ? location.state.product : null;
+const UploadProduct = () => {
+  const [productDetails, setProductDetails] = useState({
+    name: "",
+    category: "",
+    price: "",
+    discount: 0,
+    numberOfProductsAvailable: 1,
+    colors: [],
+    images: [],
+  });
+  const [uploadingImage, setUploadingImage] = useState(false);
 
-  const [productName, setProductName] = useState("");
-  const [category, setCategory] = useState("");
-  const [price, setPrice] = useState("");
-  const [pieces, setPieces] = useState("");
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [images, setImages] = useState([]);
+  const handleChange = (e) => {
+    const { id, value } = e.target;
 
-  useEffect(() => {
-    if (existingProduct) {
-      setProductName(existingProduct.name);
-      setCategory(existingProduct.category);
-      setPrice(existingProduct.price.toString());
-      setPieces(existingProduct.piece.toString());
-      setSelectedColors(existingProduct.colors);
-      setImages(existingProduct.images || []);
-    }
-  }, [existingProduct]);
-
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+    setProductDetails((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleColorSelect = (color) => {
-    setSelectedColors((prevColors) =>
-      prevColors.includes(color)
-        ? prevColors.filter((c) => c !== color)
-        : [...prevColors, color]
-    );
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+
+    const uploadedImageUrl = await uploadImage(file);
+
+    setProductDetails((prev) => ({
+      ...prev,
+      images: [...prev.images, uploadedImageUrl],
+    }));
+    setUploadingImage(false);
   };
 
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    if (files.length + images.length <= 4) {
-      const readers = files.map((file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        return new Promise((resolve) => {
-          reader.onloadend = () => {
-            resolve(reader.result);
-          };
-        });
-      });
-      Promise.all(readers).then((newImages) => {
-        setImages((prevImages) => [...prevImages, ...newImages]);
-      });
-    } else {
-      alert("You can upload up to 4 images.");
-    }
+  const handleColorSelect = (selectedColor) => {
+    setProductDetails((prev) => ({
+      ...prev,
+      colors: [...prev.colors, selectedColor],
+    }));
   };
 
   const handleImageRemove = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    const newProductImage = [...productDetails.images];
+    newProductImage.splice(index, 1);
+
+    setProductDetails((prev) => {
+      return {
+        ...prev,
+        images: [...newProductImage],
+      };
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newProduct = {
-      images,
-      name: productName,
-      category,
-      price: parseFloat(price),
-      piece: parseInt(pieces),
-      colors: selectedColors,
-    };
-    addProduct(newProduct);
-    navigate("/productstock");
+    if (productDetails.category === "") {
+      return toast.error("Select a product category");
+    }
+
+    if (productDetails.images.length === 0) {
+      return toast.error("Upload at least one Image");
+    }
+
+    axios
+      .post("/api/admin/manage-products/add", productDetails)
+      .then(() => {
+        toast.success("Product Uploaded");
+        setProductDetails({
+          name: "",
+          category: "",
+          price: "",
+          discount: 0,
+          numberOfProductsAvailable: 1,
+          colors: [],
+          images: [],
+        });
+      })
+      .catch(() => toast.error("Something went wrong"));
   };
 
   return (
@@ -98,12 +103,13 @@ const UploadProduct = ({ addProduct }) => {
                 <div className="form-group">
                   <label htmlFor="productName">Product Name</label>
                   <input
+                    required
                     type="text"
-                    id="productName"
+                    id="name"
                     className="form-input"
                     placeholder="Enter Product Name"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
+                    value={productDetails.name}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="form-group">
@@ -111,8 +117,8 @@ const UploadProduct = ({ addProduct }) => {
                   <select
                     id="category"
                     className="form-input"
-                    value={category}
-                    onChange={handleCategoryChange}
+                    value={productDetails.category}
+                    onChange={handleChange}
                   >
                     <option value="" disabled>
                       Select Category
@@ -128,12 +134,13 @@ const UploadProduct = ({ addProduct }) => {
                   <label htmlFor="price">Price</label>
                   <div className="cur-group">
                     <input
-                      type="text"
+                      type="number"
                       id="price"
+                      required
                       className="form-input"
                       placeholder="Enter Price"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      value={productDetails.price}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -143,12 +150,12 @@ const UploadProduct = ({ addProduct }) => {
                   <label htmlFor="price">Discount</label>
                   <div className="cur-group">
                     <input
-                      type="text"
-                      id="price"
+                      type="number"
+                      id="discount"
                       className="form-input"
                       placeholder="Enter Discount"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      value={productDetails.discount}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -156,12 +163,12 @@ const UploadProduct = ({ addProduct }) => {
               <div className="form-group">
                 <label htmlFor="pieces">Number of Pieces Available</label>
                 <input
-                  type="text"
-                  id="pieces"
+                  type="number"
+                  id="numberOfProductsAvailable"
                   className="form-input"
                   placeholder="Enter Number of Pieces"
-                  value={pieces}
-                  onChange={(e) => setPieces(e.target.value)}
+                  value={productDetails.numberOfProductsAvailable}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-row">
@@ -180,7 +187,7 @@ const UploadProduct = ({ addProduct }) => {
                             backgroundColor: color.value,
                           }}
                         ></div>
-                        {selectedColors.includes(color.value) && (
+                        {productDetails.colors.includes(color.value) && (
                           <FaCheck className="color-tick" />
                         )}
                         <span>{color.name}</span>
@@ -195,7 +202,7 @@ const UploadProduct = ({ addProduct }) => {
                 Upload Image
               </label>
               <label htmlFor="uploadImageInput">
-                <div className="p-2 bg-slate-100 cursor-pointer flex justify-center items-center border  rounded h-32 w-full">
+                <div className="p-2 bg-slate-100  cursor-pointer flex justify-center items-center border  rounded h-32 w-full  ">
                   <div className="text-slate-500  flex justify-center items-center flex-col gap-1">
                     <span className="text-4xl">
                       <FaCloudUploadAlt />
@@ -205,28 +212,44 @@ const UploadProduct = ({ addProduct }) => {
                       type="file"
                       id="uploadImageInput"
                       className="hidden"
+                      onClick={() => setUploadingImage(true)}
                       onChange={handleImageUpload}
                     />
                   </div>
                 </div>
               </label>
               <div className="uploaded-images">
-                {images.map((img, index) => (
-                  <div key={index} className="uploaded-image-box">
-                    <img
-                      src={img}
-                      alt={`Product ${index}`}
-                      className="uploaded-image"
-                    />
-                    <button
-                      type="button"
-                      className="remove-image"
-                      onClick={() => handleImageRemove(index)}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
+                <>
+                  {productDetails.images?.map((img, index) => (
+                    <div key={index} className="uploaded-image-box">
+                      <img
+                        src={img}
+                        alt={`Product ${index}`}
+                        className="uploaded-image"
+                      />
+                      <button
+                        type="button"
+                        className="remove-image"
+                        onClick={() => handleImageRemove(index)}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+
+                  {uploadingImage && (
+                    <div className="uploaded-image-box bg-slate-300 animate-pulse">
+                      <div className="uploaded-image " />
+                      <button
+                        type="button"
+                        onClick={() => setUploadingImage(false)}
+                        className="remove-image"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
+                </>
               </div>
             </div>
             <div className="save-button-container">
