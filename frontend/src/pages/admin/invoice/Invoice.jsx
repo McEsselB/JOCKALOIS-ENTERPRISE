@@ -1,10 +1,12 @@
+import React from 'react';
+import './Invoice.modules.css';
 
-const TopSellers = () => {
+const Invoice = () => {
   return (
     <div className="products-page">
       <div className="products-content">
         <main className="main-content">
-          <h2>Top Sellers</h2>
+          <h2>Invoice</h2>
           <div className="products-list">
             {/* You can add the list or table of products here */}
             <p>Product 1</p>
@@ -18,4 +20,4 @@ const TopSellers = () => {
   );
 };
 
-export default TopSellers;
+export default Invoice;

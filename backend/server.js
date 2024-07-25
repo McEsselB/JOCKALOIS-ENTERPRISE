@@ -28,9 +28,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(8000, () => {
   mongoose
-    .connect(process.env.MONGO_DB_CONNECTION_STRING)
+    .connect("mongodb+srv://kelvinmhacwilson:MakeMoney247@cluster0.yxhb8d4.mongodb.net/JOCKALOIS-ENTERPRISE")
     .then(() => {
       console.log("Connected to DB");
       console.log(`Server listening on PORT ${process.env.PORT}`);

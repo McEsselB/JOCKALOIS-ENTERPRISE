@@ -1,81 +1,90 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import "./Sidebar.css";
-import dashboardIcon from "../assets/images/dashboard-icon.png";
-import productsIcon from "../assets/images/products-icon.png";
-import favoritesIcon from "../assets/images/favorites-icon.png";
-import inboxIcon from "../assets/images/inbox-icon.png";
-import orderListsIcon from "../assets/images/order-lists-icon.png";
-import productStockIcon from "../assets/images/product-stock-icon.png";
-import pricingIcon from "../assets/images/pricing-icon.png";
-import calendarIcon from "../assets/images/calendar-icon.png";
-import contactIcon from "../assets/images/contact-icon.png";
-import invoiceIcon from "../assets/images/invoice-icon.png";
-import teamIcon from "../assets/images/team-icon.png";
-import tableIcon from "../assets/images/table-icon.png";
-import settingsIcon from "../assets/images/settings-icon.png";
-import logoutIcon from "../assets/images/logout-icon.png";
+import React from 'react';
+import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
+import { useNavigate, useLocation } from 'react-router-dom';
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
+import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
+import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import './styles.css'; // Import the external CSS file
 
-const Sidebar = () => {
-  const { t } = useTranslation();
-  const [selected, setSelected] = useState("");
+function Sidebar22() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleNavigation = (path) => {
-    if (path === "admin/logout") {
-      navigate("/");
+  const { collapseSidebar, collapsed } = useProSidebar();
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleMenuClick = () => {
+    if (window.innerWidth < 768) {
+      setIsOpen(!isOpen);
     } else {
-      setSelected(path);
-      navigate(`/${path}`);
+      collapseSidebar();
+    }
+  };
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+    if (window.innerWidth < 768) {
+      setIsOpen(false);
     }
   };
 
   const menuItems = [
-    { name: "Dashboard", icon: dashboardIcon, path: "" },
-    { name: "All Products", icon: productsIcon, path: "all-products" },
-    { name: "Top Sellers", icon: favoritesIcon, path: "top-sellers" },
-    { name: "Inbox", icon: inboxIcon, path: "inbox" },
-    { name: "Order Lists", icon: orderListsIcon, path: "order-lists" },
-    {
-      name: "Manage Products",
-      icon: productStockIcon,
-      path: "product-stock",
-      border: true,
-    },
-    { name: "Pricing", icon: pricingIcon, path: "pricing" },
-    { name: "Calendar", icon: calendarIcon, path: "calendar" },
-    { name: "Contact", icon: contactIcon, path: "contact" },
-    { name: "Invoice", icon: invoiceIcon, path: "invoice" },
-    { name: "Team", icon: teamIcon, path: "team" },
-    { name: "Table", icon: tableIcon, path: "table", border: true },
-    { name: "Settings", icon: settingsIcon, path: "settings" },
-    { name: "Logout", icon: logoutIcon, path: "logout" },
+    { name: 'Dashboard', icon: <DashboardOutlinedIcon />, path: "" },
+    { name: 'All Products', icon: <ShoppingCartOutlinedIcon />, path: "all-products" },
+    { name: 'Top Sellers', icon: <StarOutlineOutlinedIcon />, path: 'top-sellers' },
+    { name: 'Inbox', icon: <MailOutlineOutlinedIcon />, path: 'inbox' },
+    { name: 'Order Lists', icon: <ListAltOutlinedIcon />, path: 'order-lists' },
+    { name: 'Manage Products', icon: <Inventory2OutlinedIcon />, path: 'product-stock' },
+    { name: 'Calendar', icon: <CalendarTodayOutlinedIcon />, path: 'calendar' },
+    { name: 'Contact', icon: <ContactMailOutlinedIcon />, path: 'contact' },
+    { name: 'Invoice', icon: <DescriptionOutlinedIcon />, path: 'invoice' },
+    { name: 'Team', icon: <GroupOutlinedIcon />, path: 'team' },
+    { name: 'Table', icon: <TableChartOutlinedIcon />, path: 'table' },
+    { name: 'Settings', icon: <SettingsOutlinedIcon />, path: 'settings' },
+    { name: 'Logout', icon: <ExitToAppOutlinedIcon />, path: '/ad-login' }
   ];
 
   return (
-    <aside className="sidebar pl-6  sm:p-[20px]">
-      <div className="menu-section">
-        {menuItems.map((item) => (
-          <>
-            <div
+    <div id="app" style={{ height: "100vh", display: "flex" }}>
+      <Sidebar
+        className={`sidebar ${isOpen ? 'open' : ''}`}
+        collapsed={collapsed || window.innerWidth < 768}
+        toggled={isOpen}
+        onBackdropClick={() => setIsOpen(false)}
+      >
+        <Menu>
+          <MenuItem
+            icon={<MenuOutlinedIcon />}
+            onClick={handleMenuClick}
+            style={{ textAlign: "center" }}
+          >
+            <h2 style={{ marginLeft: "-80px" }}>Menu</h2>
+          </MenuItem>
+          {menuItems.map(item => (
+            <MenuItem
               key={item.name}
-              className={`menu-item  ${
-                selected === item.name ? "selected" : ""
-              }`}
-              onClick={() => handleNavigation(`admin/${item.path}`)}
+              icon={item.icon}
+              onClick={() => handleMenuItemClick(item.path)}
+              className={`menu-item ${location.pathname === item.path ? 'selected' : ''}`}
             >
-              <img src={item.icon} alt={item.name} />
-
-              <span className="hidden sm:block">{t(item.name)}</span>
-            </div>
-
-            {item.border && <hr />}
-          </>
-        ))}
-      </div>
-    </aside>
+              {item.name}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Sidebar>
+    </div>
   );
-};
+}
 
-export default Sidebar;
+export default Sidebar22;

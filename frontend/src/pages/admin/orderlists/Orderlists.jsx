@@ -1,10 +1,13 @@
+import React from 'react';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import './Orderlists.modules.css';
 
-const TopSellers = () => {
+const Products = () => {
   return (
     <div className="products-page">
-      <div className="products-content">
+      <div className="products-content"> 
         <main className="main-content">
-          <h2>Top Sellers</h2>
+          <h2>Order Lists</h2>
           <div className="products-list">
             {/* You can add the list or table of products here */}
             <p>Product 1</p>
@@ -18,4 +21,4 @@ const TopSellers = () => {
   );
 };
 
-export default TopSellers;
+export default Products;
