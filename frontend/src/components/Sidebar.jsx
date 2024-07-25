@@ -1,25 +1,26 @@
 import React from 'react';
 import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
 import { useNavigate, useLocation } from 'react-router-dom';
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
-import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
-import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import {
+  MenuOutlined as MenuOutlinedIcon,
+  DashboardOutlined as DashboardOutlinedIcon,
+  ShoppingCartOutlined as ShoppingCartOutlinedIcon,
+  StarOutlineOutlined as StarOutlineOutlinedIcon,
+  MailOutlineOutlined as MailOutlineOutlinedIcon,
+  ListAltOutlined as ListAltOutlinedIcon,
+  Inventory2Outlined as Inventory2OutlinedIcon,
+  CalendarTodayOutlined as CalendarTodayOutlinedIcon,
+  ContactMailOutlined as ContactMailOutlinedIcon,
+  DescriptionOutlined as DescriptionOutlinedIcon,
+  GroupOutlined as GroupOutlinedIcon,
+  TableChartOutlined as TableChartOutlinedIcon,
+  SettingsOutlined as SettingsOutlinedIcon,
+  ExitToAppOutlined as ExitToAppOutlinedIcon,
+} from "@mui/icons-material";
 
-function Sidebar22() {
+const Sidebar22 = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { collapseSidebar, collapsed } = useProSidebar();
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -60,7 +61,6 @@ function Sidebar22() {
         style={{
           height: "100vh",
           overflowY: "auto",
-          scrollBehavior: "smooth",
           marginBottom: "0px",
           zIndex: isOpen ? 1000 : 1,
           position: isOpen ? 'fixed' : 'relative',
@@ -87,7 +87,6 @@ function Sidebar22() {
               style={{
                 backgroundColor: location.pathname === item.path ? '#3b82f6' : 'transparent',
                 transition: 'background-color 0.3s ease',
-                ...(location.pathname === item.path && { ':hover': { backgroundColor: '#3b82f6' } })
               }}
             >
               {item.name}
@@ -95,7 +94,7 @@ function Sidebar22() {
           ))}
         </Menu>
       </Sidebar>
-      <style jsx>{
+      <style jsx>{`
         body {
           margin: 0;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", 
@@ -147,7 +146,7 @@ function Sidebar22() {
             display: ${isOpen ? 'block' : 'none'};
           }
         }
-      }</style>
+      `}</style>
     </div>
   );
 }
