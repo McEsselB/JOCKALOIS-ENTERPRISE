@@ -82,11 +82,12 @@ const Sidebar22 = () => {
               key={item.name}
               icon={item.icon}
               onClick={() => handleMenuItemClick(item.path)}
-              active={location.pathname === item.path}
-              className={location.pathname === item.path ? 'selected' : ''}
+              active={location.pathname === `/${item.path}`}
+              className={location.pathname === `/${item.path}` ? 'selected' : ''}
               style={{
-                backgroundColor: location.pathname === item.path ? '#3b82f6' : 'transparent',
+                backgroundColor: location.pathname === `/${item.path}` ? '#3b82f6' : 'transparent',
                 transition: 'background-color 0.3s ease',
+                color: location.pathname === `/${item.path}` ? 'white' : 'inherit',
               }}
             >
               {item.name}
