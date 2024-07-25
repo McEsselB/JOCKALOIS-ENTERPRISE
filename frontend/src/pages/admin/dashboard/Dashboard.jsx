@@ -14,7 +14,7 @@ const Dashboard = () => {
   // const [width, setWidth] = useState(window.innerWidth);
   const [pageDetails, setPageDetails] = useState({
     totalUsers: 0,
-    totalOrders: 0,
+    totalProducts: 0,
     totalSales: 0,
     pendingOrders: 0,
   });
@@ -59,8 +59,8 @@ const Dashboard = () => {
               icon={userIcon2}
             />
             <InfoBox
-              title="Total Orders"
-              value={pageDetails.totalOrders}
+              title="Total Products"
+              value={pageDetails.totalProducts}
               percentage="1.3% Up from past week"
               icon={orderIcon}
             />
@@ -71,7 +71,7 @@ const Dashboard = () => {
               icon={salesIcon}
             />
             <InfoBox
-              title="Total Pending"
+              title="Pending Orders"
               value={pageDetails.pendingOrders}
               percentage="1.8% Up from yesterday"
               icon={pendingIcon}

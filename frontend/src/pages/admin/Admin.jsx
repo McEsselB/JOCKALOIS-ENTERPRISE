@@ -4,6 +4,7 @@ import { ProSidebarProvider } from "react-pro-sidebar";
 import AdminHeader from "../../components/AdminHeader";
 import { useEffect } from "react";
 import { useUserContext } from "../../context/userContext";
+import { Toaster } from "react-hot-toast";
 
 function Admin() {
   const { fetchUserDetails, currentUser } = useUserContext();
@@ -28,6 +29,7 @@ function Admin() {
         </aside>
         <main className="flex-1">
           <Outlet />
+          <Toaster />
         </main>
       </div>
     </div>

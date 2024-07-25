@@ -7,6 +7,8 @@ import axios from "axios";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState();
+  const [toggleAddProduct, setToggleAddProduct] = useState(true);
+
   const fetchAllProducts = async () => {
     await axios
       .get("/api/get-all-products")
@@ -18,9 +20,7 @@ const ManageProducts = () => {
 
   useEffect(() => {
     fetchAllProducts();
-  }, []);
-
-  const [toggleAddProduct, setToggleAddProduct] = useState(true);
+  }, [toggleAddProduct]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
@@ -73,7 +73,9 @@ const ManageProducts = () => {
           <div className="header-section">
             <h2>Product Stock</h2>
             <button
-              onClick={() => setToggleAddProduct(!toggleAddProduct)}
+              onClick={() => {
+                setToggleAddProduct(!toggleAddProduct);
+              }}
               className="add-stock-button"
             >
               {!toggleAddProduct ? "Manage Products" : "Upload Product"}

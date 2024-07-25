@@ -46,7 +46,7 @@ const Sidebar = () => {
   const menuItems = [
     { name: "Dashboard", icon: dashboardIcon, path: "" },
     { name: "All Products", icon: productsIcon, path: "all-products" },
-    { name: "Top Sellers", icon: favoritesIcon, path: "top-sellers" },
+    { name: "Top Products", icon: favoritesIcon, path: "top-sellers" },
     { name: "Inbox", icon: inboxIcon, path: "inbox" },
     { name: "Order Lists", icon: orderListsIcon, path: "order-lists" },
     {
@@ -55,12 +55,11 @@ const Sidebar = () => {
       path: "product-stock",
       border: true,
     },
-    { name: "Pricing", icon: pricingIcon, path: "pricing" },
     { name: "Calendar", icon: calendarIcon, path: "calendar" },
     { name: "Contact", icon: contactIcon, path: "contact" },
     { name: "Invoice", icon: invoiceIcon, path: "invoice" },
-    { name: "Team", icon: teamIcon, path: "team" },
-    { name: "Table", icon: tableIcon, path: "table", border: true },
+    { name: "Stuff", icon: teamIcon, path: "team", border: true },
+    // { name: "Table", icon: tableIcon, path: "table",  },
     { name: "Settings", icon: settingsIcon, path: "settings" },
     { name: "Logout", icon: logoutIcon, path: "logout" },
   ];

@@ -14,10 +14,10 @@ import Table from "./pages/admin/table/Table";
 import Cart from "./pages/client/cart/CartPage";
 import Checkout from "./pages/client/checkout/Checkout";
 import ContactUs from "./components/ContactUs";
-import Contact from './pages/admin/contact/Contact';
-import Invoice from './pages/admin/invoice/Invoice';
+import Contact from "./pages/admin/contact/Contact";
+import Invoice from "./pages/admin/invoice/Invoice";
 import App from "./App";
-import Calendar from './pages/admin/calendar/Calendar';
+import Calendar from "./pages/admin/calendar/Calendar";
 import Admin from "./pages/admin/Admin";
 import TopSellers from "./pages/admin/top_sellers/TopSellers";
 import SignIn from "./pages/general/login/Sign-in";
@@ -88,10 +88,6 @@ const router = createBrowserRouter([
       {
         path: "product-stock",
         element: <ProductStock />,
-      },
-      {
-        path: "pricing",
-        element: <Pricing />,
       },
       {
         path: "calendar",
