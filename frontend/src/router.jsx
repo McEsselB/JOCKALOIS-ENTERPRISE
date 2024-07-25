@@ -5,10 +5,7 @@ import SignUp from "./pages/general/register/Sign-up";
 import Products from "./pages/AllProducts";
 import Inbox from "./pages/admin/inbox/Inbox";
 import Settings from "./pages/admin/setting/Settings";
-import Team1 from "./pages/admin/team/Team";
-import Team from "./pages/admin/team/Team";
 import ProductDisplay from "./pages/ProductDisplay";
-import Pricing from "./pages/Pricing";
 import OrderLists from "./pages/admin/orderlists/Orderlists";
 import Table from "./pages/admin/table/Table";
 import Cart from "./pages/client/cart/CartPage";
@@ -23,6 +20,7 @@ import TopSellers from "./pages/admin/top_sellers/TopSellers";
 import SignIn from "./pages/general/login/Sign-in";
 import ProductStock from "./pages/admin/manage_product/ManageProducts";
 import AllProducts from "./pages/AllProducts";
+import Stuff from "./pages/admin/stuff/Stuff";
 
 const router = createBrowserRouter([
   {
@@ -102,8 +100,8 @@ const router = createBrowserRouter([
         element: <Invoice />,
       },
       {
-        path: "team",
-        element: <Team />,
+        path: "stuff",
+        element: <Stuff />,
       },
       {
         path: "table",

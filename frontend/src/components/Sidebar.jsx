@@ -58,7 +58,7 @@ const Sidebar = () => {
     { name: "Calendar", icon: calendarIcon, path: "calendar" },
     { name: "Contact", icon: contactIcon, path: "contact" },
     { name: "Invoice", icon: invoiceIcon, path: "invoice" },
-    { name: "Stuff", icon: teamIcon, path: "team", border: true },
+    { name: "Stuff", icon: teamIcon, path: "stuff", border: true },
     // { name: "Table", icon: tableIcon, path: "table",  },
     { name: "Settings", icon: settingsIcon, path: "settings" },
     { name: "Logout", icon: logoutIcon, path: "logout" },
