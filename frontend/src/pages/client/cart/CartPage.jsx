@@ -6,30 +6,28 @@ import Section from "../../../components/Section"; // Import the Section compone
 import trashBinIcon from "../../../assets/images/trashbin.png";
 import shoppingBagIcon from "../../../assets/images/shoppingbag.png";
 import "./CartPage.modules.css";
+import axios from "axios";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [recommendedProducts, setRecommendedProducts] = useState([]); // New state for recommended products
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
+  const fetchRecommendedProducts = async () => {
+    await axios
+      .get("/api/get-all-products")
+      .then((res) => {
+        setRecommendedProducts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load cart items from localStorage or your backend
+    fetchRecommendedProducts();
     const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     setCartItems(storedCartItems);
     updateTotalPrice(storedCartItems);
-
-    // Load recommended products from your backend or a static list
-    const products = [
-      { name: "Product 1", price: 50, piecesLeft: 5, discount: "10% Off" },
-      { name: "Product 2", price: 30, piecesLeft: 8, discount: null },
-      { name: "Product 3", price: 20, piecesLeft: 10, discount: "5% Off" },
-      { name: "Product 4", price: 50, piecesLeft: 5, discount: "10% Off" },
-      { name: "Product 5", price: 30, piecesLeft: 8, discount: null },
-      { name: "Product 6", price: 20, piecesLeft: 10, discount: "5% Off" },
-    ];
-    setRecommendedProducts(products);
   }, []);
 
   const handleQuantityChange = (index, increment) => {

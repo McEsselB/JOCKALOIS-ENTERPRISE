@@ -11,6 +11,7 @@ const Section = ({ title, products, onProductClick }) => {
           <ProductCard
             image={product.images[0]}
             key={index}
+            id={product._id}
             name={product.name}
             price={product.price}
             piecesLeft={product.numberOfProductsAvailable}

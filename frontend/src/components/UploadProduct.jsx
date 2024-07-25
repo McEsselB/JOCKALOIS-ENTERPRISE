@@ -79,7 +79,6 @@ const UploadProduct = () => {
     axios
       .post("/api/admin/manage-products/add", productDetails)
       .then(() => {
-        toast.success("Product Uploaded");
         setProductDetails({
           name: "",
           category: "",
@@ -89,6 +88,7 @@ const UploadProduct = () => {
           colors: [],
           images: [],
         });
+        toast.success("Product Uploaded");
       })
       .catch(() => toast.error("Something went wrong"));
   };

@@ -1,19 +1,41 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "./ProductDisplay.modules.css"; // Ensure this is the correct path
 import profilePic from "../assets/images/profile-pic.jpg";
+import axios from "axios";
+import Section from "../components/Section";
 
 const ProductDisplay = () => {
-  const location = useLocation();
-  const { product } = location.state || {};
+  const [product, setProduct] = useState();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
 
+  const [similarProducts, setSimilarProducts] = useState();
+  const fetchSimilarProducts = async () => {
+    await axios
+      .get("/api/get-all-products")
+      .then((res) => {
+        setSimilarProducts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const params = useParams();
+
+  const fetchProductDetails = async () => {
+    await axios
+      .post("/api/product-details", { productId: params.id })
+      .then((res) => {
+        setProduct(res.data.data);
+      });
+  };
+
   useEffect(() => {
-    window.scrollTo(0, 0);
+    fetchProductDetails();
+    fetchSimilarProducts();
   }, []);
 
   const handleQuantityChange = (type) => {
@@ -32,19 +54,7 @@ const ProductDisplay = () => {
     setSelectedColor(color);
   };
 
-  const handleAddToCart = () => {
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const newItem = {
-      name: product.name,
-      price: product.price,
-      quantity,
-      size: selectedSize,
-      color: selectedColor,
-    };
-    cartItems.push(newItem);
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    alert("Item added to cart");
-  };
+  const handleAddToCart = () => {};
 
   return (
     <div className="productsPage2">
@@ -54,7 +64,7 @@ const ProductDisplay = () => {
           {product ? (
             <>
               <div className="productDetails2">
-                <div className="productImage2"></div>
+                <img src={product.images[0]} className="productImage2" />
                 <div className="productInfoAndSpecs2">
                   <h2>{product.name}</h2>
                   <p className="productPrice2">GH₵ {product.price}</p>
@@ -83,14 +93,7 @@ const ProductDisplay = () => {
                       <div className="color2">
                         <span>Color</span>
                         <div className="colorOptions2">
-                          {[
-                            "Blue",
-                            "Green",
-                            "Red",
-                            "Pink",
-                            "Black",
-                            "White",
-                          ].map((color) => (
+                          {product?.colors?.map((color) => (
                             <button
                               key={color}
                               className={`${color.toLowerCase()} ${
@@ -162,21 +165,12 @@ const ProductDisplay = () => {
                 </div>
               </div>
               <div className="similarProducts2">
-                <h3>Similar Products</h3>
                 <div className="similarProductsList2">
-                  {/* Add similar products here */}
-                  <div className="similarProductCard2">
-                    Product Name GH₵ 0.00
-                  </div>
-                  <div className="similarProductCard2">
-                    Product Name GH₵ 0.00
-                  </div>
-                  <div className="similarProductCard2">
-                    Product Name GH₵ 0.00
-                  </div>
-                  <div className="similarProductCard2">
-                    Product Name GH₵ 0.00
-                  </div>
+                  <Section
+                    title="Similar Products"
+                    products={similarProducts}
+                    // onProductClick={handleProductClick}
+                  />
                 </div>
               </div>
             </>
