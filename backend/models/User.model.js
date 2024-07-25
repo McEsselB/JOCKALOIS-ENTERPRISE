@@ -2,8 +2,6 @@ import { Schema, model } from "mongoose";
 
 const userSchema = new Schema(
   {
-    firstName: String,
-    lastName: String,
     username: String,
     profilePicture: {
       type: String,
@@ -12,6 +10,7 @@ const userSchema = new Schema(
     },
     email: { type: String, unique: true, require: true },
     password: String,
+    role: { type: String, default: "CUSTOMER" },
   },
   { timestamps: true }
 );
