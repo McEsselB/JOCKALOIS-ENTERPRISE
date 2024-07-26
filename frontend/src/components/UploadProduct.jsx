@@ -23,6 +23,7 @@ const UploadProduct = () => {
     category: "",
     price: "",
     discount: 0,
+    description: "",
     numberOfProductsAvailable: 1,
     colors: [],
     images: [],
@@ -87,6 +88,7 @@ const UploadProduct = () => {
           numberOfProductsAvailable: 1,
           colors: [],
           images: [],
+          description: "",
         });
         toast.success("Product Uploaded");
       })
@@ -129,7 +131,23 @@ const UploadProduct = () => {
                   </select>
                 </div>
               </div>
-              <div className="form-row">
+              <div className="form-row ">
+                <div className="form-group">
+                  <label htmlFor="price">Description</label>
+                  <div className="cur-group">
+                    <textarea
+                      type="text"
+                      id="description"
+                      required
+                      className="h-[200px]"
+                      placeholder="Enter Product Description"
+                      value={productDetails.description}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="form-row mt-20">
                 <div className="form-group">
                   <label htmlFor="price">Price</label>
                   <div className="cur-group">

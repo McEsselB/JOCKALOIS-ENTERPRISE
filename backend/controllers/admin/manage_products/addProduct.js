@@ -5,7 +5,7 @@ export const addProducts = async (req, res, next) => {
     const newProduct = await Product.create({ ...req.body });
 
     return res.status(200).json({
-      // data: newProduct,
+      data: newProduct,
       message: "New Product Added",
     });
   } catch (error) {
