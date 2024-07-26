@@ -62,6 +62,7 @@ export default function SignIn() {
         toast.success("Logged In");
         fetchUserDetails();
         navigate("/");
+        navigate(0);
       })
       .catch((err) => {
         console.log(err);

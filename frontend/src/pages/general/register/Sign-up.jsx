@@ -20,7 +20,6 @@ export default function SignUp() {
     password: "",
     username: "",
     confirmPassword: "",
-    profilePicture: "",
   });
 
   const handleGoogleClick = async () => {
@@ -36,9 +35,8 @@ export default function SignUp() {
           email: result.user.email,
           profilePicture: result.user.photoURL,
         })
-        .then((res) => {
+        .then(() => {
           toast.success("Log in Successful");
-          console.log(res.data);
           navigate("/");
         })
         .catch((err) => console.log(err));

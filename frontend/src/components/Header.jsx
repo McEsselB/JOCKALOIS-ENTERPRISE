@@ -89,12 +89,14 @@ const Header = () => {
           <div className="login-box">
             {currentUser ? (
               <>
-                <button
-                  className="signup-button"
-                  onClick={() => navigate("/admin")}
-                >
-                  Admin Dashboard
-                </button>
+                {currentUser.role === "ADMIN" && (
+                  <button
+                    className="signup-button"
+                    onClick={() => navigate("/admin")}
+                  >
+                    Admin Dashboard
+                  </button>
+                )}
                 <button className="signup-button" onClick={handleLogout}>
                   Log out
                 </button>

@@ -66,11 +66,10 @@ const Sidebar = () => {
   return (
     <aside className="">
       <div className="flex flex-col gap-4">
-        {menuItems.map((item) => {
+        {menuItems.map((item, index) => {
           return (
-            <>
+            <div key={index}>
               <div
-                key={item.name}
                 className={`pl-3 pr-2 sm:px-[20px]  sm:py-1 flex gap-2 items-center  cursor-pointer ${
                   location === `/admin/${item.path}` && "bg-blue-600"
                 } ${
@@ -90,7 +89,7 @@ const Sidebar = () => {
               </div>
 
               {item.border && <hr />}
-            </>
+            </div>
           );
         })}
       </div>
