@@ -57,7 +57,7 @@ const ProductDisplay = () => {
   const handleAddToCart = () => {};
 
   return (
-    <div className="productsPage2">
+    <div className="productsPage2 overflow-hidden">
       <Header />
       <div className="productsContent2">
         <main className="mainContent2">

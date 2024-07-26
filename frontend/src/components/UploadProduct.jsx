@@ -139,7 +139,7 @@ const UploadProduct = () => {
                       type="text"
                       id="description"
                       required
-                      className="h-[200px]"
+                      className="bg-slate-100 p-2 min-h-40 max-h-40 border rounded outline-slate-400"
                       placeholder="Enter Product Description"
                       value={productDetails.description}
                       onChange={handleChange}
@@ -147,7 +147,7 @@ const UploadProduct = () => {
                   </div>
                 </div>
               </div>
-              <div className="form-row mt-20">
+              <div className="form-row mt-32">
                 <div className="form-group">
                   <label htmlFor="price">Price</label>
                   <div className="cur-group">
@@ -215,7 +215,7 @@ const UploadProduct = () => {
                 </div>
               </div>
             </div>
-            <div className="upload-logo-section mt-6">
+            <div className="form-group mt-8 w-full">
               <label htmlFor="productImage" className="font-bold text-xl mb-2">
                 Upload Image
               </label>

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import "./Header2.modules.css";
 import logo from "../assets/images/logo.png";
@@ -15,19 +14,11 @@ import { useUserContext } from "../context/userContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const AdminHeader = ({ toggleSidebar }) => {
+const AdminHeader = () => {
   const navigate = useNavigate();
 
   const { currentUser } = useUserContext();
 
-  // useEffect(() => {
-  //   fetchUserDetails();
-  //   if (!currentUser || currentUser?.role === "ADMIN") {
-  //     return navigate("/");
-  //   }
-  // }, [currentUser, fetchUserDetails, navigate]);
-
-  const { t } = useTranslation();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const profileDropdownRef = useRef(null);
@@ -63,25 +54,18 @@ const AdminHeader = ({ toggleSidebar }) => {
   }, []);
 
   return (
-    <header className="header2 w-full">
+    <header className="header2 w-full overflow-hidden">
       <div className="flex flex-row items-center">
-        <img
-          src={menuIcon}
-          alt="Menu"
-          className="icon2 menu-icon2 block sm:hidden "
-          onClick={toggleSidebar}
-        />
-
         <img
           onClick={() => navigate("/")}
           src={logo}
           alt="Logo"
-          className="logo2 cursor-pointer ml-2 sm:ml-0"
+          className="logo2 cursor-pointer sm:ml-2"
         />
       </div>
 
       <div className="flex flex-row items-center gap-4">
-        <img src={notificationIcon} alt={t("Notification")} className="icon2" />
+        <img src={notificationIcon} alt={"Notification"} className="icon2" />
 
         <div className="flex flex-row items-center gap-3">
           <img
@@ -89,7 +73,7 @@ const AdminHeader = ({ toggleSidebar }) => {
             alt="Profile"
             className="w-[35px] h-[35px] rounded-full "
           />
-          <div className="profile-info">
+          <div className="md:profile-info md:flex md:flex-col hidden">
             <span className="profile-name">{currentUser?.username}</span>
             <span className="profile-role">{currentUser?.role}</span>
           </div>
@@ -107,9 +91,7 @@ const AdminHeader = ({ toggleSidebar }) => {
                   alt="Manage Account"
                   className="icon2"
                 />
-                <span className="profile-option-text">
-                  {t("Manage Account")}
-                </span>
+                <span className="profile-option-text">{"Manage Account"}</span>
               </div>
               <div className="profile-option">
                 <img
@@ -117,9 +99,7 @@ const AdminHeader = ({ toggleSidebar }) => {
                   alt="Change Password"
                   className="icon2"
                 />
-                <span className="profile-option-text">
-                  {t("Change Password")}
-                </span>
+                <span className="profile-option-text">{"Change Password"}</span>
               </div>
               <div className="profile-option">
                 <img
@@ -127,11 +107,11 @@ const AdminHeader = ({ toggleSidebar }) => {
                   alt="Activity Log"
                   className="icon2"
                 />
-                <span className="profile-option-text">{t("Activity Log")}</span>
+                <span className="profile-option-text">{"Activity Log"}</span>
               </div>
               <div className="profile-option" onClick={handleLogout}>
                 <img src={logoutIcon} alt="Log out" className="icon2" />
-                <span className="profile-option-text">{t("Log out")}</span>
+                <span className="profile-option-text">{"Log out"}</span>
               </div>
             </div>
           )}

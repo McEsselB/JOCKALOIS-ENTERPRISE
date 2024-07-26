@@ -1,19 +1,25 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import AdminProducts from "../../../components/AdminProducts";
 
 const TopSellers = () => {
+  const [products, setProducts] = useState();
+  const fetchAllProducts = async () => {
+    await axios
+      .get("/api/get-all-products")
+      .then((res) => {
+        setProducts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchAllProducts();
+  }, []);
+
   return (
-    <div className="products-page">
-      <div className="products-content">
-        <main className="main-content">
-          <h2>Top Sellers</h2>
-          <div className="products-list">
-            {/* You can add the list or table of products here */}
-            <p>Product 1</p>
-            <p>Product 2</p>
-            <p>Product 3</p>
-            {/* Add more product items as needed */}
-          </div>
-        </main>
-      </div>
+    <div className="px-10">
+      <AdminProducts products={products} title="Most Sold Products" />
     </div>
   );
 };

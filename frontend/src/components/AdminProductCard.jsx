@@ -9,10 +9,10 @@ const AdminProductCard = ({
   images,
 }) => {
   return (
-    <div className="product-card2" onClick={onClick}>
+    <div className="border border-slate-300 px" onClick={onClick}>
       {discount && <div className="discount-tag">{discount}</div>}
       <div>
-        <img src={images[0]} alt="" className="product-image" />
+        <img src={images[0]} alt="" className="product-image p-2 rounded-lg object-cover" />
       </div>
       <div className="product-details">
         <h3>{name}</h3>

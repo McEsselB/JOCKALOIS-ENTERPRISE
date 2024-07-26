@@ -1,6 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
-import { ProSidebarProvider } from "react-pro-sidebar";
 import AdminHeader from "../../components/AdminHeader";
 import { useEffect } from "react";
 import { useUserContext } from "../../context/userContext";
@@ -19,13 +18,11 @@ function Admin() {
   }
 
   return (
-    <div className="">
+    <div className="p-0">
       <AdminHeader />
       <div className="flex flex-row">
         <aside>
-          <ProSidebarProvider>
-            <Sidebar />
-          </ProSidebarProvider>
+          <Sidebar />
         </aside>
         <main className="flex-1">
           <Outlet />

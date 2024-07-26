@@ -1,8 +1,7 @@
 import axios from "axios";
-import Section2 from "../components/AdminProducts";
-import { useUserContext } from "../context/userContext";
 import "./AllProducts.modules.css";
 import { useEffect, useState } from "react";
+import AdminProducts from "../components/AdminProducts";
 
 const AllProducts = () => {
   const [products, setProducts] = useState();
@@ -20,15 +19,8 @@ const AllProducts = () => {
   }, []);
 
   return (
-    <div className="products-page">
-      <div className="products-content">
-        <main className="main-content">
-          <h2>Products</h2>
-          <div className="products-list">
-            <Section2 products={products} />
-          </div>
-        </main>
-      </div>
+    <div className="px-10">
+      <AdminProducts products={products} title={"All Products"} />
     </div>
   );
 };

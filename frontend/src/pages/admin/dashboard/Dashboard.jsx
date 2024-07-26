@@ -44,8 +44,6 @@ const Dashboard = () => {
     fetchDisplayInfo();
   }, []);
 
-  console.log(pageDetails);
-
   return (
     <div className="dashboard pb-10">
       <div className="dashboard-content">

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import "./Sidebar.css";
+// import "./Sidebar.css";
 import dashboardIcon from "../assets/images/dashboard-icon.png";
 import productsIcon from "../assets/images/products-icon.png";
 import favoritesIcon from "../assets/images/favorites-icon.png";
@@ -21,8 +21,8 @@ import toast from "react-hot-toast";
 
 const Sidebar = () => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState("");
   const navigate = useNavigate();
+  const location = useLocation().pathname;
 
   const handleNavigation = (path) => {
     if (path === "admin/logout") {
@@ -38,7 +38,6 @@ const Sidebar = () => {
           toast.error("Something went wrong");
         });
     } else {
-      setSelected(path);
       navigate(`/${path}`);
     }
   };
@@ -65,25 +64,35 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="sidebar pl-6  sm:p-[20px]">
-      <div className="menu-section">
-        {menuItems.map((item) => (
-          <>
-            <div
-              key={item.name}
-              className={`menu-item  ${
-                selected === item.name ? "selected" : ""
-              }`}
-              onClick={() => handleNavigation(`admin/${item.path}`)}
-            >
-              <img src={item.icon} alt={item.name} />
+    <aside className="">
+      <div className="flex flex-col gap-4">
+        {menuItems.map((item) => {
+          return (
+            <>
+              <div
+                key={item.name}
+                className={`pl-3 pr-2 sm:px-[20px]  sm:py-1 flex gap-2 items-center  cursor-pointer ${
+                  location === `/admin/${item.path}` && "bg-blue-600"
+                } ${
+                  item.name === `Dashboard` &&
+                  location === "/admin" &&
+                  "bg-blue-600"
+                } `}
+                onClick={() => handleNavigation(`admin/${item.path}`)}
+              >
+                <img
+                  className="w-[40px] h-[40px] p-2"
+                  src={item.icon}
+                  alt={item.name}
+                />
 
-              <span className="hidden sm:block">{t(item.name)}</span>
-            </div>
+                <span className="hidden sm:block">{t(item.name)}</span>
+              </div>
 
-            {item.border && <hr />}
-          </>
-        ))}
+              {item.border && <hr />}
+            </>
+          );
+        })}
       </div>
     </aside>
   );

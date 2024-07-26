@@ -89,10 +89,10 @@ const ManageProducts = () => {
                     <tr>
                       <th>Image</th>
                       <th>Product Name</th>
-                      <th className="hidden md:block">Category</th>
+                      <th className="hidden md:table-cell">Category</th>
                       <th>Price</th>
-                      <th>Piece</th>
-                      <th className="hidden md:block ">Available Color</th>
+                      <th className="hidden md:table-cell">Piece</th>
+                      <th className="hidden md:table-cell">Available Color</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -111,7 +111,9 @@ const ManageProducts = () => {
                           {product.category}
                         </td>
                         <td>${product.price}</td>
-                        <td>{product.numberOfProductsAvailable}</td>
+                        <td className="hidden md:table-cell">
+                          {product.numberOfProductsAvailable}
+                        </td>
                         <td className="hidden md:table-cell">
                           {product.colors.map((color, idx) => (
                             <span

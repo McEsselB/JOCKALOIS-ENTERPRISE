@@ -10,6 +10,7 @@ const productSchema = new Schema(
     numberOfProductsAvailable: String,
     colors: Array,
     images: Array,
+    quantitiesSold: Number,
     reviews: [
       {
         userId: String,
