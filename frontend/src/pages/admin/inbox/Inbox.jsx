@@ -5,8 +5,15 @@ import labelIcon from "../../../assets/images/label.png";
 import infoIcon from "../../../assets/images/emailinfo.png";
 import deleteIcon from "../../../assets/images/delete.png";
 import searchIcon from "../../../assets/images/search.png";
+import ComposeEmail from "./ComposeEmail";
 
 const Inbox = () => {
+  const [toggleCompose, setToggleCompose] = useState(false);
+
+  const handleOnClick = () => {
+    setToggleCompose(!toggleCompose);
+  };
+
   const [emails, setEmails] = useState([
     {
       id: 1,
@@ -49,12 +56,6 @@ const Inbox = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [newLabel, setNewLabel] = useState("");
-  const [labels, setLabels] = useState([
-    "Primary",
-    "Social",
-    "Work",
-    "Friends",
-  ]);
 
   const handleLike = (id) => {
     setEmails(
@@ -119,13 +120,6 @@ const Inbox = () => {
     setNewLabel(e.target.value);
   };
 
-  const handleAddNewLabel = () => {
-    if (newLabel && !labels.includes(newLabel)) {
-      setLabels([...labels, newLabel]);
-      setNewLabel("");
-    }
-  };
-
   const filteredEmails = () => {
     let filtered = [];
     if (currentFolder === "Inbox") filtered = emails;
@@ -147,7 +141,9 @@ const Inbox = () => {
           <h2>{currentFolder}</h2>
           <div className="email-container">
             <div className="email-sidebar">
-              <button className="compose-btn">+ Compose</button>
+              <button className="compose-btn" onClick={handleOnClick}>
+                + Compose
+              </button>
               <div className="email-heading">My Email</div>
               <div className="email-folder">
                 <div
@@ -210,81 +206,64 @@ const Inbox = () => {
                   Bin <span className="item-count">{deletedEmails.length}</span>
                 </div>
               </div>
-              <div className="email-heading">Labels</div>
-              <div className="email-categories">
-                {labels.map((label, index) => (
-                  <div key={index} className="category-item">
-                    <input
-                      type="checkbox"
-                      onChange={() => handleLabelChange(label)}
-                      checked={selectedLabels.includes(label)}
-                    />{" "}
-                    {label}
-                  </div>
-                ))}
-              </div>
-              <div className="new-label-container">
-                <input
-                  type="text"
-                  value={newLabel}
-                  onChange={handleNewLabelChange}
-                  placeholder="Enter New Label Name"
-                />
-                <button
-                  className="create-label-btn"
-                  onClick={handleAddNewLabel}
-                >
-                  + Create New Label
-                </button>
-              </div>
             </div>
-            <div className="email-content">
-              <div className="email-search">
-                <div className="search-bar-container">
-                  <img src={searchIcon} alt="Search" className="search-icon" />
-                  <input
-                    type="text"
-                    className="search-bar"
-                    placeholder="Search mail"
-                  />
-                </div>
-                <div className="search-icons">
-                  <img src={labelIcon} alt="Label" className="icon" />
-                  <img src={infoIcon} alt="Info" className="icon" />
-                  <img
-                    src={deleteIcon}
-                    alt="Delete"
-                    className="icon"
-                    onClick={openDeleteModal}
-                  />
-                </div>
-              </div>
-              <div className="email-list">
-                {filteredEmails().map((email) => (
-                  <div key={email.id} className="email-item">
-                    <input
-                      type="checkbox"
-                      onChange={() => handleCheckboxChange(email.id)}
-                      checked={selectedEmails.includes(email.id)}
+            {toggleCompose ? (
+              <div className="email-content">
+                <div className="email-search">
+                  <div className="search-bar-container">
+                    <img
+                      src={searchIcon}
+                      alt="Search"
+                      className="search-icon"
                     />
-                    <span
-                      className="email-star"
-                      onClick={() => handleLike(email.id)}
-                    >
-                      {email.liked ? "★" : "☆"}
-                    </span>
-                    <span className="email-sender">{email.sender}</span>
-                    <span
-                      className={`email-label ${email.label.toLowerCase()}`}
-                    >
-                      {email.label}
-                    </span>
-                    <span className="email-subject">{email.subject}</span>
-                    <span className="email-time">{email.time}</span>
+                    <input
+                      type="text"
+                      className="search-bar"
+                      placeholder="Search mail"
+                    />
                   </div>
-                ))}
+                  <div className="search-icons">
+                    <img src={labelIcon} alt="Label" className="icon" />
+                    <img src={infoIcon} alt="Info" className="icon" />
+                    <img
+                      src={deleteIcon}
+                      alt="Delete"
+                      className="icon"
+                      onClick={openDeleteModal}
+                    />
+                  </div>
+                </div>
+                <div className="email-list">
+                  {filteredEmails().map((email) => (
+                    <div key={email.id} className="email-item">
+                      <input
+                        type="checkbox"
+                        onChange={() => handleCheckboxChange(email.id)}
+                        checked={selectedEmails.includes(email.id)}
+                      />
+                      <span
+                        className="email-star"
+                        onClick={() => handleLike(email.id)}
+                      >
+                        {email.liked ? "★" : "☆"}
+                      </span>
+                      <span className="email-sender">{email.sender}</span>
+                      <span
+                        className={`email-label ${email.label.toLowerCase()}`}
+                      >
+                        {email.label}
+                      </span>
+                      <span className="email-subject">{email.subject}</span>
+                      <span className="email-time">{email.time}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="email-content">
+                <ComposeEmail handleOnClick={handleOnClick} />
+              </div>
+            )}
           </div>
         </main>
       </div>
