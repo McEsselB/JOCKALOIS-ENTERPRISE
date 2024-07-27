@@ -8,7 +8,7 @@ import searchIcon from "../../../assets/images/search.png";
 import ComposeEmail from "./ComposeEmail";
 
 const Inbox = () => {
-  const [toggleCompose, setToggleCompose] = useState(false);
+  const [toggleCompose, setToggleCompose] = useState(true);
 
   const handleOnClick = () => {
     setToggleCompose(!toggleCompose);
