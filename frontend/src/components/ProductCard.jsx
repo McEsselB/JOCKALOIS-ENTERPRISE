@@ -14,8 +14,8 @@ const ProductCard = ({
   const navigate = useNavigate();
   return (
     <div className="product-card" onClick={() => navigate(`/product/${id}`)}>
-      {discount && <div className="discount-tag">{discount}</div>}
-      <img src={image} className="product-image" />
+      {discount && <div className="discount-tag">-{discount}%</div>}
+      <img src={image} className="product-image object-contain" />
       <div className="product-details">
         <h3>{name}</h3>
         <p>GH₵ {price}</p>

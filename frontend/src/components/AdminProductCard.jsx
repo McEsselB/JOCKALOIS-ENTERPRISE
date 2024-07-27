@@ -12,7 +12,11 @@ const AdminProductCard = ({
     <div className="border border-slate-300 px" onClick={onClick}>
       {discount && <div className="discount-tag">{discount}</div>}
       <div>
-        <img src={images[0]} alt="" className="product-image p-2 rounded-lg object-cover" />
+        <img
+          src={images[0]}
+          alt=""
+          className="product-image w-full p-2 rounded-lg object-contain mix-blend-multiply"
+        />
       </div>
       <div className="product-details">
         <h3>{name}</h3>

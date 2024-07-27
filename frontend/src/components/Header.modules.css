@@ -8,10 +8,11 @@
   align-items: center;
   padding: 10px 20px;
   background: linear-gradient(to right, #6881C1, #6881C1, #B3A069);
-  height: 80px;
+  height: 60px;
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+  padding-bottom: 10px;
 }
 
 body {
@@ -20,7 +21,7 @@ body {
 }
 
 .logo {
-  height: 80px;
+  height: 42px;
 }
 
 .search-box {

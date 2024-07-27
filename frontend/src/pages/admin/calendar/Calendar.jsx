@@ -1,19 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Calendar from 'react-calendar';
-import './Calendar.modules.css';
+import React, { useState, useEffect, useCallback } from "react";
+import Calendar from "react-calendar";
+import "./Calendar.modules.css";
+import toast from "react-hot-toast";
 
 const CalendarPage = () => {
   const [date, setDate] = useState(new Date());
-  const [view, setView] = useState('month');
+  const [view, setView] = useState("month");
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
   const navigateToToday = useCallback(() => {
+    setShowForm(false);
     const today = new Date();
     setDate(today);
     setSelectedDate(today);
-    setView('month'); // Ensure we view the month to see today’s date
+    setView("month"); // Ensure we view the month to see today’s date
   }, []);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const CalendarPage = () => {
     if (selectedDate) {
       setShowForm(true);
     } else {
-      alert('Please select a date first.');
+      toast.error("Please select a date first.");
     }
   };
 
@@ -38,14 +40,16 @@ const CalendarPage = () => {
   };
   return (
     <div className="calendar-page">
-      <div className="calendar-content">  
+      <div className="calendar-content">
         <main className="main-content">
           <div className="calendar-header">
             <h2 className="calendar-title">Calendar</h2>
           </div>
           <div className="calendar-main-content">
             <div className="calendar-sidebar">
-              <button className="add-event-btn" onClick={handleAddEvent}>Add New Event</button>
+              <button className="add-event-btn" onClick={handleAddEvent}>
+                Add New Event
+              </button>
               <div className="events-list">
                 {events.length > 0 ? (
                   events.map((event, index) => (
@@ -60,23 +64,43 @@ const CalendarPage = () => {
             </div>
             <div className="cal-content">
               <div className="all-buttons">
-                <button className="today-btn" onClick={navigateToToday}>Today</button>
+                <button
+                  className="today-btn hidden lg:block"
+                  onClick={navigateToToday}
+                >
+                  Today
+                </button>
                 <div className="view-buttons">
                   <button
-                    className={view === 'day' ? 'active' : ''}
-                    onClick={() => setView('day')}
+                    className="today-btn lg:hidden"
+                    onClick={navigateToToday}
+                  >
+                    Today
+                  </button>
+                  <button
+                    className={view === "day" ? "active" : ""}
+                    onClick={() => {
+                      setShowForm(false);
+                      setView("day");
+                    }}
                   >
                     Day
                   </button>
                   <button
-                    className={view === 'week' ? 'active' : ''}
-                    onClick={() => setView('week')}
+                    className={view === "week" ? "active" : ""}
+                    onClick={() => {
+                      setShowForm(false);
+                      setView("week");
+                    }}
                   >
                     Week
                   </button>
                   <button
-                    className={view === 'month' ? 'active' : ''}
-                    onClick={() => setView('month')}
+                    className={view === "month" ? "active" : ""}
+                    onClick={() => {
+                      setShowForm(false);
+                      setView("month");
+                    }}
                   >
                     Month
                   </button>
@@ -98,7 +122,11 @@ const CalendarPage = () => {
                   <h2>Add New Event</h2>
                   <div className="form-group">
                     <label>Date</label>
-                    <input type="text" value={selectedDate.toDateString()} readOnly />
+                    <input
+                      type="text"
+                      value={selectedDate.toDateString()}
+                      readOnly
+                    />
                   </div>
                   <div className="form-group">
                     <label>Event Name</label>
@@ -128,7 +156,9 @@ const CalendarPage = () => {
                     >
                       Cancel
                     </button>
-                    <button type="submit" className="save-button">Save</button>
+                    <button type="submit" className="save-button">
+                      Save
+                    </button>
                   </div>
                 </form>
               )}
