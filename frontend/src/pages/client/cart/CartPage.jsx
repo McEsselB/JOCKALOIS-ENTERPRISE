@@ -80,11 +80,7 @@ const Cart = () => {
         <div className="cart-items">
           {cartItems.map((item, index) => (
             <div className="cart-item" key={index}>
-              <input
-                type="checkbox"
-                className="cart-checkbox"
-                checked={selectAll}
-              />
+              
               <div className="cart-image-placeholder"></div>
               <div className="cart-product-details">
                 <h3 className="cart-product-name">
@@ -135,13 +131,6 @@ const Cart = () => {
         </div>
         <div className="cart-bottom-section">
           <div className="cart-bottom-left">
-            <input
-              type="checkbox"
-              className="cart-select-all"
-              checked={selectAll}
-              onChange={handleSelectAll}
-            />
-            <span>Select all</span>
           </div>
           <span className="cart-total-price">
             Total GH₵ {totalPrice.toFixed(2)}
