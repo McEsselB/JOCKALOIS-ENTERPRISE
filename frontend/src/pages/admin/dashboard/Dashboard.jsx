@@ -1,6 +1,4 @@
 import InfoBox from "../../../components/InfoBox";
-import SalesChart from "../../../components/SalesChart";
-import DealsList from "../../../components/DealsList";
 import "./Dashboard.css";
 import axios from "axios";
 
@@ -11,17 +9,12 @@ import pendingIcon from "../../../assets/images/pending.png";
 import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  // const [width, setWidth] = useState(window.innerWidth);
   const [pageDetails, setPageDetails] = useState({
     totalUsers: 0,
     totalProducts: 0,
     totalSales: 0,
     pendingOrders: 0,
   });
-
-  // function handleWidth() {
-  //   setWidth(window.innerWidth);
-  // }
 
   const fetchDisplayInfo = async () => {
     await axios
@@ -31,14 +24,6 @@ const Dashboard = () => {
       })
       .catch((err) => console.log(err));
   };
-
-  // useEffect(() => {
-  //   window.addEventListener("resize", handleWidth);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleWidth);
-  //   };
-  // }, []);
 
   useEffect(() => {
     fetchDisplayInfo();

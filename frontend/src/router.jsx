@@ -19,11 +19,11 @@ import Calendar from "./pages/admin/calendar/Calendar";
 import Admin from "./pages/admin/Admin";
 import TopSellers from "./pages/admin/top_sellers/TopSellers";
 import SignIn from "./pages/general/login/Sign-in";
-import ProductStock from "./pages/admin/manage_product/ManageProducts";
 import AllProducts from "./pages/AllProducts";
 import Stuff from "./pages/admin/stuff/Stuff";
 import ErrorBoundary from "./components/ErrorBoundary";
 import NotFound from "./components/NotFound";
+import ManageProducts from "./pages/admin/manage_product/ManageProducts";
 
 const router = createBrowserRouter([
   {
@@ -98,8 +98,8 @@ const router = createBrowserRouter([
         element: <OrderLists />,
       },
       {
-        path: "product-stock",
-        element: <ProductStock />,
+        path: "manage-products",
+        element: <ManageProducts />,
       },
       {
         path: "calendar",
@@ -116,10 +116,6 @@ const router = createBrowserRouter([
       {
         path: "stuff",
         element: <Stuff />,
-      },
-      {
-        path: "teamform",
-        element: <TeamForm />,
       },
       {
         path: "table",

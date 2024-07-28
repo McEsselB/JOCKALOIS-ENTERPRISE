@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./Team1.modules.css";
 import axios from "axios";
+import TeamForm from "./TeamForm";
 
 const Stuff = () => {
   const [stuffInfo, setStuffInfo] = useState();
+  const [toggleTeamForm, setToggleTeamForm] = useState(true);
 
   const fetchStuffInfo = async () => {
     await axios
-      .get("/api/admin/get-stuff-info", { withCredentials: true })
+      .get("/api/admin/stuff/view-members", { withCredentials: true })
       .then((res) => {
         setStuffInfo(res.data.data);
       });
@@ -18,10 +19,8 @@ const Stuff = () => {
     fetchStuffInfo();
   }, []);
 
-  const navigate = useNavigate();
-
-  const handleAddNewMember = () => {
-    navigate("/admin/teamform");
+  const handleToggle = () => {
+    setToggleTeamForm(!toggleTeamForm);
   };
 
   return (
@@ -30,29 +29,33 @@ const Stuff = () => {
         <main className="main-content">
           <div className="header-section">
             <h2>Team</h2>
-            <button onClick={handleAddNewMember} className="add-member-button">
-              Add New Member
+            <button onClick={handleToggle} className="add-member-button">
+              {toggleTeamForm ? "Add New Member" : "View Stuff"}
             </button>
           </div>
-          <div className="gap-4 grid sm:grid-cols-2 lg:grid-cols-3">
-            {stuffInfo?.map((member, index) => (
-              <div
-                className="team-card flex-col justify-center items-center"
-                key={index}
-              >
-                <div className="flex items-center justify-center">
-                  <img
-                    src={member.profilePicture}
-                    alt={member.name}
-                    className="team-card-img"
-                  />
+          {toggleTeamForm ? (
+            <div className="gap-4 grid sm:grid-cols-2 lg:grid-cols-3">
+              {stuffInfo?.map((member, index) => (
+                <div
+                  className="team-card flex-col justify-center items-center"
+                  key={index}
+                >
+                  <div className="flex items-center justify-center">
+                    <img
+                      src={member.profilePicture}
+                      alt={member.name}
+                      className="team-card-img"
+                    />
+                  </div>
+                  <h4 className="truncate">{member.username}</h4>
+                  <p>{member.role}</p>
+                  <p className="truncate">{member.email}</p>
                 </div>
-                <h4 className="truncate">{member.username}</h4>
-                <p>{member.role}</p>
-                <p className="truncate">{member.email}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <TeamForm />
+          )}
         </main>
       </div>
     </div>

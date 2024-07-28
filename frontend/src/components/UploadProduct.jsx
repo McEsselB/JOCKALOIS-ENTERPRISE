@@ -4,6 +4,7 @@ import { FaCheck, FaCloudUploadAlt } from "react-icons/fa";
 import { uploadImage } from "../utils/uploadImage";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const colorsList = [
   { name: "Red", value: "red" },
@@ -17,17 +18,21 @@ const colorsList = [
   { name: "Pink", value: "pink" },
 ];
 
-const UploadProduct = () => {
+const UploadProduct = ({ product }) => {
+  const navigate = useNavigate();
   const [productDetails, setProductDetails] = useState({
-    name: "",
-    category: "",
-    price: "",
-    discount: 0,
-    description: "",
-    numberOfProductsAvailable: 1,
-    colors: [],
-    images: [],
+    name: product?.name || "",
+    category: product?.category || "",
+    price: product?.price || "",
+    discount: product?.discount || 0,
+    description: product?.description || "",
+    numberOfProductsAvailable: product?.numberOfProductsAvailable || 1,
+    colors: product?.colors || [],
+    images: product?.images || [],
+    id: product?._id || "",
   });
+
+  // console.log(product._id);
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const handleChange = (e) => {
@@ -67,7 +72,7 @@ const UploadProduct = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleUploadProduct = (event) => {
     event.preventDefault();
     if (productDetails.category === "") {
       return toast.error("Select a product category");
@@ -77,6 +82,7 @@ const UploadProduct = () => {
       return toast.error("Upload at least one Image");
     }
 
+    delete productDetails.id;
     axios
       .post("/api/admin/manage-products/add", productDetails)
       .then(() => {
@@ -95,11 +101,33 @@ const UploadProduct = () => {
       .catch(() => toast.error("Something went wrong"));
   };
 
+  const handleEditProduct = async (e) => {
+    e.preventDefault();
+    if (productDetails.category === "") {
+      return toast.error("Select a product category");
+    }
+
+    if (productDetails.images.length === 0) {
+      return toast.error("Upload at least one Image");
+    }
+    await axios
+      .put("/api/admin/manage-products/edit", productDetails, {
+        withCredentials: true,
+      })
+      .then(() => {
+        navigate(0);
+        toast.success("Product Updated");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="product-page">
       <div className="product-content">
         <main className="main-content">
-          <form className="product-form" onSubmit={handleSubmit}>
+          <form className="product-form">
             <div className="product-fields">
               <div className="form-row">
                 <div className="form-group">
@@ -271,9 +299,23 @@ const UploadProduct = () => {
               </div>
             </div>
             <div className="save-button-container">
-              <button type="submit" className="save-button">
-                Upload Product
-              </button>
+              {!product?._id ? (
+                <button
+                  type="submit"
+                  onClick={handleUploadProduct}
+                  className="save-button"
+                >
+                  Upload Product
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  onClick={handleEditProduct}
+                  className="save-button"
+                >
+                  Edit Product
+                </button>
+              )}
             </div>
           </form>
         </main>

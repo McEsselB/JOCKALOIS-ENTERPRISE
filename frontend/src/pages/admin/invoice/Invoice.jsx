@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import './Invoice.modules.css';
+import { useState, useEffect } from "react";
+import "./Invoice.modules.css";
+import { useNavigate } from "react-router-dom";
 
 const Invoice = () => {
-  const [invoiceDate, setInvoiceDate] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const navigate = useNavigate();
+  const [invoiceDate, setInvoiceDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [rows, setRows] = useState([
-    { serialNo: 1, description: '', quantity: 0, baseCost: 0, totalCost: 0 },
+    { serialNo: 1, description: "", quantity: "", baseCost: "", totalCost: 0 },
   ]);
 
   useEffect(() => {
     const today = new Date();
-    const formattedInvoiceDate = today.toISOString().split('T')[0];
+    const formattedInvoiceDate = today.toISOString().split("T")[0];
     const due = new Date(today);
     due.setDate(due.getDate() + 30);
-    const formattedDueDate = due.toISOString().split('T')[0];
+    const formattedDueDate = due.toISOString().split("T")[0];
 
     setInvoiceDate(formattedInvoiceDate);
     setDueDate(formattedDueDate);
@@ -23,7 +25,7 @@ const Invoice = () => {
     const newRows = rows.map((row, rowIndex) => {
       if (index === rowIndex) {
         const updatedRow = { ...row, [key]: value };
-        if (key === 'quantity' || key === 'baseCost') {
+        if (key === "quantity" || key === "baseCost") {
           updatedRow.totalCost = updatedRow.quantity * updatedRow.baseCost;
         }
         return updatedRow;
@@ -36,9 +38,9 @@ const Invoice = () => {
   const handleAddRow = () => {
     const newRow = {
       serialNo: rows.length + 1,
-      description: '',
-      quantity: 0,
-      baseCost: 0,
+      description: "",
+      quantity: "",
+      baseCost: "",
       totalCost: 0,
     };
     setRows([...rows, newRow]);
@@ -49,8 +51,8 @@ const Invoice = () => {
   };
 
   return (
-    <div className="invoice-page">
-      <div className="invoice-content">
+    <div className="invoice-page flex flex-col">
+      <div className="invoice-content" id="invoice-print-section">
         <main className="main-content">
           <h2>Invoice</h2>
           <div className="invoice-header">
@@ -103,27 +105,40 @@ const Invoice = () => {
                     <td>
                       <input
                         type="text"
+                        placeholder="Description"
                         value={row.description}
                         onChange={(e) =>
-                          handleRowChange(index, 'description', e.target.value)
+                          handleRowChange(index, "description", e.target.value)
                         }
                       />
                     </td>
                     <td className="hidden-column">
                       <input
+                        placeholder="Quantity"
                         type="number"
                         value={row.quantity}
+                        min={1}
                         onChange={(e) =>
-                          handleRowChange(index, 'quantity', Number(e.target.value))
+                          handleRowChange(
+                            index,
+                            "quantity",
+                            Number(e.target.value)
+                          )
                         }
                       />
                     </td>
                     <td>
                       <input
+                        placeholder="Base Cost"
                         type="number"
+                        min={1}
                         value={row.baseCost}
                         onChange={(e) =>
-                          handleRowChange(index, 'baseCost', Number(e.target.value))
+                          handleRowChange(
+                            index,
+                            "baseCost",
+                            Number(e.target.value)
+                          )
                         }
                       />
                     </td>
@@ -139,11 +154,22 @@ const Invoice = () => {
           <div className="invoice-total">
             <p>Total: ${calculateTotal()}</p>
           </div>
-          <div className="invoice-buttons">
-            <button>Print</button>
-            <button>Send</button>
-          </div>
         </main>
+      </div>
+      <div className="invoice-buttons self-end">
+        <button
+          onClick={() => {
+            const printContent = document.getElementById(
+              "invoice-print-section"
+            ).innerHTML;
+            document.body.innerHTML = printContent;
+            window.print();
+            navigate(0);
+          }}
+        >
+          Print
+        </button>
+        <button>Send</button>
       </div>
     </div>
   );

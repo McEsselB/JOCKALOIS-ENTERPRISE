@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import auth from "./routes/general/auth.js";
 import admin from "./routes/admin/admin.js";
 import products from "./routes/general/product.js";
+import { authToken } from "./middleware/authToken.js";
+import { verifyAdmin } from "./middleware/verifyAdmin.js";
 
 dotenv.config();
 const app = express();
@@ -18,7 +20,7 @@ app.post("/api/", (req, res) => {
 });
 
 app.use("/api/auth", auth);
-app.use("/api/admin", admin);
+app.use("/api/admin", authToken, verifyAdmin, admin);
 app.use("/api/", products);
 
 app.use((err, req, res, next) => {

@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-
-import { useNavigate } from "react-router-dom";
 import "./ManageProducts.modules.css";
 import UploadProduct from "../../../components/UploadProduct";
 import axios from "axios";
+import { MdDelete, MdEdit } from "react-icons/md";
+import toast from "react-hot-toast";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState();
-  const [toggleAddProduct, setToggleAddProduct] = useState(true);
-
+  const [toggleAddProduct, setToggleAddProduct] = useState(false);
+  const [toggleEditProduct, setToggleEditProduct] = useState(false);
+  const [productToEditDetails, setProductToEditDetails] = useState();
   const fetchAllProducts = async () => {
     await axios
       .get("/api/get-all-products")
@@ -45,26 +46,23 @@ const ManageProducts = () => {
     }
   };
 
-  // const addProduct = (newProduct) => {
-  //   setProducts([...products, newProduct]);
-  // };
-
-  const navigate = useNavigate();
-
-  const handleEdit = (product) => {
-    navigate("/products2", { state: { product } });
+  const handleDeleteProduct = async (productId) => {
+    await axios
+      .post(
+        "/api/admin/manage-products/delete",
+        { productId },
+        {
+          withCredentials: true,
+        }
+      )
+      .then(() => {
+        fetchAllProducts();
+        toast.success("Product deleted successfully");
+      })
+      .catch((err) => console.log(err));
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleDelete = (index) => {
-    if (window.confirm("Do you want to delete this product?")) {
-      const updatedProducts = products?.filter((_, i) => i !== index);
-      setProducts(updatedProducts);
-    }
-  };
+  
 
   return (
     <div className="products-page">
@@ -72,17 +70,30 @@ const ManageProducts = () => {
         <main className="main-content">
           <div className="header-section">
             <h2>Product Stock</h2>
-            <button
-              onClick={() => {
-                setToggleAddProduct(!toggleAddProduct);
-              }}
-              className="add-stock-button"
-            >
-              {!toggleAddProduct ? "Manage Products" : "Upload Product"}
-            </button>
+            {!toggleEditProduct ? (
+              <button
+                onClick={() => {
+                  setToggleAddProduct(!toggleAddProduct);
+                }}
+                className="add-stock-button"
+              >
+                {toggleAddProduct ? "Manage Products" : "Upload Product"}
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setToggleEditProduct(!toggleEditProduct);
+                }}
+                className="add-stock-button"
+              >
+                Manage Products
+              </button>
+            )}
           </div>
           <>
-            {toggleAddProduct ? (
+            {toggleEditProduct ? (
+              <UploadProduct product={productToEditDetails} />
+            ) : !toggleAddProduct ? (
               <>
                 <table className="product-table">
                   <thead>
@@ -125,16 +136,19 @@ const ManageProducts = () => {
                         </td>
                         <td>
                           <button
-                            className="edit-button"
-                            onClick={() => handleEdit(product)}
+                            onClick={() => {
+                              setProductToEditDetails(product);
+                              setToggleEditProduct(!toggleEditProduct);
+                            }}
+                            className="mx-1"
                           >
-                            ✏️
+                            <MdEdit />
                           </button>
                           <button
-                            className="delete-button"
-                            onClick={() => handleDelete(index)}
+                            onClick={() => handleDeleteProduct(product._id)}
+                            className="mx-1"
                           >
-                            🗑️
+                            <MdDelete />
                           </button>
                         </td>
                       </tr>

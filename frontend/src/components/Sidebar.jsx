@@ -51,7 +51,7 @@ const Sidebar = () => {
     {
       name: "Manage Products",
       icon: productStockIcon,
-      path: "product-stock",
+      path: "manage-products",
       border: true,
     },
     { name: "Calendar", icon: calendarIcon, path: "calendar" },

@@ -1,10 +1,24 @@
 import { MdClose, MdDelete } from "react-icons/md";
 import { IoMdAttach } from "react-icons/io";
 import { IoSend } from "react-icons/io5";
+import { useState } from "react";
 
-const ComposeEmail = ({ handleOnClick }) => {
+const ComposeEmail = ({ handleOnClick, email }) => {
   const inputStyles =
     "pl-2 text-slate-500 rounded-lg py-3 border-[2px] border-slate-300 outline-slate-200 hover:border-slate-200 hover:shadow-lg transition duration-500 ease-in-out ";
+
+  const [emailData, setEmailData] = useState({
+    to: email || "",
+    subject: "",
+    body: "",
+    attachments: [],
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+
+    setEmailData((prev) => ({ ...prev, [id]: value }));
+  };
 
   return (
     <div className="flex flex-col flex-1 h-full px-6 ">
@@ -22,20 +36,26 @@ const ComposeEmail = ({ handleOnClick }) => {
       <div className="flex flex-col gap-2">
         <input
           placeholder="To"
+          value={emailData.to}
           className={`${inputStyles} mt-4`}
           type="text"
-          id="email-to"
+          id="to"
+          onChange={handleChange}
         />
         <input
+          value={emailData.subject}
           placeholder="Subject"
           className={`${inputStyles}`}
           type="text"
-          id="email-subject"
+          id="subject"
+          onChange={handleChange}
         />
         <textarea
+          value={emailData.body}
           placeholder="Body"
           className={`${inputStyles} h-40 max-h-40 min-h-40`}
-          id="email-body"
+          id="body"
+          onChange={handleChange}
         />
       </div>
       <div className="px-4 bg-slate-100 flex justify-between items-center py-2 mt-auto">
