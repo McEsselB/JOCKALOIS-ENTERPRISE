@@ -8,6 +8,7 @@ import Settings from "./pages/admin/setting/Settings";
 import ProductDisplay from "./pages/ProductDisplay";
 import OrderLists from "./pages/admin/orderlists/Orderlists";
 import Table from "./pages/admin/table/Table";
+import TeamForm from "./pages/admin/stuff/TeamForm";
 import Cart from "./pages/client/cart/CartPage";
 import Checkout from "./pages/client/checkout/Checkout";
 import ContactUs from "./components/ContactUs";
@@ -21,11 +22,17 @@ import SignIn from "./pages/general/login/Sign-in";
 import ProductStock from "./pages/admin/manage_product/ManageProducts";
 import AllProducts from "./pages/AllProducts";
 import Stuff from "./pages/admin/stuff/Stuff";
+import ErrorBoundary from "./components/ErrorBoundary";
+import NotFound from "./components/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    ),
     children: [
       {
         path: "",
@@ -51,17 +58,24 @@ const router = createBrowserRouter([
         path: "products",
         element: <Products />,
       },
-
       {
         path: "product/:id",
         element: <ProductDisplay />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
   // Admin Routes
   {
     path: "/admin",
-    element: <Admin />,
+    element: (
+      <ErrorBoundary>
+        <Admin />
+      </ErrorBoundary>
+    ),
     children: [
       {
         path: "",
@@ -104,12 +118,20 @@ const router = createBrowserRouter([
         element: <Stuff />,
       },
       {
+        path: "teamform",
+        element: <TeamForm />,
+      },
+      {
         path: "table",
         element: <Table />,
       },
       {
         path: "settings",
         element: <Settings />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

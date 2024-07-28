@@ -26,7 +26,7 @@ const Team = () => {
             <div className="team-fields">
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="firstName">First Name</label>
+                  <label htmlFor="firstName">Username</label>
                   <input
                     type="text"
                     id="firstName"
@@ -35,14 +35,20 @@ const Team = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="lastName">Last Name</label>
-                  <input
-                    type="text"
-                    id="lastName"
+                  <label htmlFor="gender">Role</label>
+                  <select
+                    id="gender"
                     className="form-input"
-                    placeholder="Enter Last Name"
-                  />
-                </div>
+                    value={gender}
+                    onChange={handleGenderChange}
+                  >
+                    <option value="" disabled>
+                      Select Role
+                    </option>
+                    <option value="Male">Admin</option>
+                    <option value="Female">Customer</option>
+                  </select>
+                </div>  
               </div>
               <div className="form-row">
                 <div className="form-group">
@@ -65,30 +71,6 @@ const Team = () => {
                 </div>
               </div>
               <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="position">Position</label>
-                  <input
-                    type="text"
-                    id="position"
-                    className="form-input"
-                    placeholder="Enter Position"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="gender">Gender</label>
-                  <select
-                    id="gender"
-                    className="form-input"
-                    value={gender}
-                    onChange={handleGenderChange}
-                  >
-                    <option value="" disabled>
-                      Select Gender
-                    </option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </div>
               </div>
             </div>
             <div className="save-button-container">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "./ProductDisplay.modules.css"; // Ensure this is the correct path
@@ -12,8 +12,11 @@ const ProductDisplay = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-
   const [similarProducts, setSimilarProducts] = useState();
+  
+  const params = useParams();
+  const navigate = useNavigate(); // Use useNavigate hook
+
   const fetchSimilarProducts = async () => {
     await axios
       .get("/api/get-all-products")
@@ -22,8 +25,6 @@ const ProductDisplay = () => {
       })
       .catch((err) => console.log(err));
   };
-
-  const params = useParams();
 
   const fetchProductDetails = async () => {
     await axios
@@ -36,7 +37,7 @@ const ProductDisplay = () => {
   useEffect(() => {
     fetchProductDetails();
     fetchSimilarProducts();
-  }, []);
+  }, [params.id]); // Add params.id to the dependency array
 
   const handleQuantityChange = (type) => {
     if (type === "increment") {
@@ -54,7 +55,12 @@ const ProductDisplay = () => {
     setSelectedColor(color);
   };
 
-  const handleAddToCart = () => {};
+  const handleAddToCart = () => {
+    // Add your logic to add the product to the cart here
+    // For example, you could use axios to make an API call to add the item to the cart
+    // Then navigate to the cart page
+    navigate('/cart');
+  };
 
   return (
     <div className="productsPage2 overflow-hidden">
@@ -169,7 +175,6 @@ const ProductDisplay = () => {
                   <Section
                     title="Similar Products"
                     products={similarProducts}
-                    // onProductClick={handleProductClick}
                   />
                 </div>
               </div>

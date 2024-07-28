@@ -4,6 +4,9 @@ import './Invoice.modules.css';
 const Invoice = () => {
   const [invoiceDate, setInvoiceDate] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [rows, setRows] = useState([
+    { serialNo: 1, description: '', quantity: 0, baseCost: 0, totalCost: 0 },
+  ]);
 
   useEffect(() => {
     const today = new Date();
@@ -16,6 +19,35 @@ const Invoice = () => {
     setDueDate(formattedDueDate);
   }, []);
 
+  const handleRowChange = (index, key, value) => {
+    const newRows = rows.map((row, rowIndex) => {
+      if (index === rowIndex) {
+        const updatedRow = { ...row, [key]: value };
+        if (key === 'quantity' || key === 'baseCost') {
+          updatedRow.totalCost = updatedRow.quantity * updatedRow.baseCost;
+        }
+        return updatedRow;
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
+
+  const handleAddRow = () => {
+    const newRow = {
+      serialNo: rows.length + 1,
+      description: '',
+      quantity: 0,
+      baseCost: 0,
+      totalCost: 0,
+    };
+    setRows([...rows, newRow]);
+  };
+
+  const calculateTotal = () => {
+    return rows.reduce((total, row) => total + row.totalCost, 0);
+  };
+
   return (
     <div className="invoice-page">
       <div className="invoice-content">
@@ -24,19 +56,19 @@ const Invoice = () => {
           <div className="invoice-header">
             <div className="invoice-from">
               <label>
-                Invoice From: 
+                Invoice From:
                 <input type="text" defaultValue="Sophia Loren" />
               </label>
             </div>
             <div className="invoice-to">
               <label>
-                Invoice To: 
+                Invoice To:
                 <input type="text" defaultValue="Lazy Ltd" />
               </label>
             </div>
             <div className="invoice-dates">
               <label>
-                Invoice Date: 
+                Invoice Date:
                 <input
                   type="date"
                   value={invoiceDate}
@@ -44,7 +76,7 @@ const Invoice = () => {
                 />
               </label>
               <label>
-                Due Date: 
+                Due Date:
                 <input
                   type="date"
                   value={dueDate}
@@ -65,39 +97,47 @@ const Invoice = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Children Toy</td>
-                  <td className="hidden-column">2</td>
-                  <td>$20</td>
-                  <td className="hidden-column">$80</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Makeup</td>
-                  <td className="hidden-column">2</td>
-                  <td>$50</td>
-                  <td className="hidden-column">$100</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Asus Laptop</td>
-                  <td className="hidden-column">5</td>
-                  <td>$100</td>
-                  <td className="hidden-column">$500</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Iphone X</td>
-                  <td className="hidden-column">4</td>
-                  <td>$1000</td>
-                  <td className="hidden-column">$4000</td>
-                </tr>
+                {rows.map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.serialNo}</td>
+                    <td>
+                      <input
+                        type="text"
+                        value={row.description}
+                        onChange={(e) =>
+                          handleRowChange(index, 'description', e.target.value)
+                        }
+                      />
+                    </td>
+                    <td className="hidden-column">
+                      <input
+                        type="number"
+                        value={row.quantity}
+                        onChange={(e) =>
+                          handleRowChange(index, 'quantity', Number(e.target.value))
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={row.baseCost}
+                        onChange={(e) =>
+                          handleRowChange(index, 'baseCost', Number(e.target.value))
+                        }
+                      />
+                    </td>
+                    <td className="hidden-column">{row.totalCost}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
+            <button onClick={handleAddRow} className="add-row-button">
+              Add Row
+            </button>
           </div>
           <div className="invoice-total">
-            <p>Total: $4680</p>
+            <p>Total: ${calculateTotal()}</p>
           </div>
           <div className="invoice-buttons">
             <button>Print</button>

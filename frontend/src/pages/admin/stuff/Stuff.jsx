@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Team1.modules.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 const Stuff = () => {
   const [stuffInfo, setStuffInfo] = useState();
@@ -18,27 +18,33 @@ const Stuff = () => {
     fetchStuffInfo();
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleAddNewMember = () => {
+    navigate("/admin/teamform");
+  };
+
   return (
     <div className="team1-page">
       <div className="team1-content">
         <main className="main-content">
           <div className="header-section">
             <h2>Team</h2>
-            <Link to="/team1" className="add-member-button">
+            <button onClick={handleAddNewMember} className="add-member-button">
               Add New Member
-            </Link>
+            </button>
           </div>
           <div className="gap-4 grid sm:grid-cols-2 lg:grid-cols-3">
             {stuffInfo?.map((member, index) => (
               <div
-                className="team-card  flex-col justify-center items-center"
+                className="team-card flex-col justify-center items-center"
                 key={index}
               >
-                <div className="flex items-center justify-center ">
+                <div className="flex items-center justify-center">
                   <img
                     src={member.profilePicture}
                     alt={member.name}
-                    className="team-card-img "
+                    className="team-card-img"
                   />
                 </div>
                 <h4 className="truncate">{member.username}</h4>
