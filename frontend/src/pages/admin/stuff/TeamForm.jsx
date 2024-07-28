@@ -20,7 +20,6 @@ const TeamForm = () => {
     await axios
       .get("/api/admin/get-all-users")
       .then((response) => {
-        console.log(response.data);
         setAllUsers(response.data.data);
       })
       .catch((error) => {
