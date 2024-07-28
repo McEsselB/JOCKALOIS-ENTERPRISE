@@ -33,11 +33,11 @@
 }
 
 .banner2-image {
-  max-height: 430px; /* Limit the height of the image */
+  max-height: 200px; /* Limit the height of the image */
   width: auto; /* Maintain aspect ratio */
   margin-right: 2px; /* Reduce the right margin */
   flex-shrink: 0; /* Prevent image from shrinking */
-  margin-top: 0px;
+  margin-top: 40px;
 }
 
 @media (max-width: 768px) {
