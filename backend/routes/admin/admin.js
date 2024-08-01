@@ -7,6 +7,7 @@ import { deleteProduct } from "../../controllers/admin/manage_products/deletePro
 import { editProduct } from "../../controllers/admin/manage_products/editProduct.js";
 import { addStuff } from "../../controllers/admin/stuff/addStuff.js";
 import { totalUsers } from "../../controllers/admin/dashboard/totalUsers.controller.js";
+import { getMails } from "../../controllers/admin/mail/getMails.js";
 
 const route = Router();
 
@@ -18,6 +19,6 @@ route.get("/stuff/view-members", stuff);
 route.put("/stuff/add-member", addStuff);
 route.get("/get-all-users", totalUsers);
 
-
+route.get("/allMails", getMails);
 
 export default route;

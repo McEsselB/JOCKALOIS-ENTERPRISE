@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./Inbox.modules.css";
 import labelIcon from "../../../assets/images/label.png";
@@ -6,6 +6,7 @@ import infoIcon from "../../../assets/images/emailinfo.png";
 import deleteIcon from "../../../assets/images/delete.png";
 import searchIcon from "../../../assets/images/search.png";
 import ComposeEmail from "./ComposeEmail";
+import axios from "axios";
 
 const Inbox = () => {
   const [toggleCompose, setToggleCompose] = useState(true);
@@ -14,40 +15,16 @@ const Inbox = () => {
     setToggleCompose(!toggleCompose);
   };
 
-  const [emails, setEmails] = useState([
-    {
-      id: 1,
-      sender: "John Doe",
-      label: "Primary",
-      subject: "New Safety Tools Available Now",
-      time: "9:30 AM",
-      liked: false,
-    },
-    {
-      id: 2,
-      sender: "Jane Smith",
-      label: "Work",
-      subject: "Safety Equipment for Your Business",
-      time: "11:45 AM",
-      liked: false,
-    },
-    {
-      id: 3,
-      sender: "SafetyCo",
-      label: "Social",
-      subject: "Exclusive Deals on Safety Tools",
-      time: "2:15 PM",
-      liked: false,
-    },
-    {
-      id: 4,
-      sender: "ToolsMart",
-      label: "Friends",
-      subject: "Update: New Safety Tool Standards",
-      time: "4:30 PM",
-      liked: false,
-    },
-  ]);
+  const fetchMails = async () => {
+    await axios
+      .get("/api/admin/allMails", { withCredentials: true })
+      .then((response) => {
+        setEmails(response.data.data);
+        console.log(response.data);
+      });
+  };
+
+  const [emails, setEmails] = useState([]);
 
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [deletedEmails, setDeletedEmails] = useState([]);
@@ -55,7 +32,6 @@ const Inbox = () => {
   const [selectedLabels, setSelectedLabels] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [newLabel, setNewLabel] = useState("");
 
   const handleLike = (id) => {
     setEmails(
@@ -65,14 +41,7 @@ const Inbox = () => {
     );
   };
 
-  const handleDelete = () => {
-    const emailsToDelete = emails.filter((email) =>
-      selectedEmails.includes(email.id)
-    );
-    setDeletedEmails([...deletedEmails, ...emailsToDelete]);
-    setEmails(emails.filter((email) => !selectedEmails.includes(email.id)));
-    setSelectedEmails([]);
-  };
+  const handleDelete = () => {};
 
   const openDeleteModal = () => {
     if (
@@ -109,17 +78,6 @@ const Inbox = () => {
     }
   };
 
-  const handleLabelChange = (label) => {
-    setSelectedLabels((prev) =>
-      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
-    );
-    setCurrentFolder("Inbox"); // Reset to Inbox view when changing labels
-  };
-
-  const handleNewLabelChange = (e) => {
-    setNewLabel(e.target.value);
-  };
-
   const filteredEmails = () => {
     let filtered = [];
     if (currentFolder === "Inbox") filtered = emails;
@@ -133,6 +91,10 @@ const Inbox = () => {
     }
     return filtered;
   };
+
+  useEffect(() => {
+    fetchMails();
+  }, []);
 
   return (
     <div className="inbox-page">
@@ -162,7 +124,7 @@ const Inbox = () => {
                 >
                   Starred{" "}
                   <span className="item-count">
-                    {emails.filter((e) => e.liked).length}
+                    {/* {emails.filter((e) => e.liked).length} */}
                   </span>
                 </div>
                 <div
@@ -234,27 +196,27 @@ const Inbox = () => {
                   </div>
                 </div>
                 <div className="email-list">
-                  {filteredEmails().map((email) => (
-                    <div key={email.id} className="email-item">
+                  {filteredEmails()?.map((email) => (
+                    <div key={email._id} className="email-item">
                       <input
                         type="checkbox"
-                        onChange={() => handleCheckboxChange(email.id)}
-                        checked={selectedEmails.includes(email.id)}
+                        onChange={() => handleCheckboxChange(email._id)}
+                        checked={selectedEmails.includes(email._id)}
                       />
                       <span
                         className="email-star"
-                        onClick={() => handleLike(email.id)}
+                        onClick={() => handleLike(email._id)}
                       >
                         {email.liked ? "★" : "☆"}
                       </span>
-                      <span className="email-sender">{email.sender}</span>
+                      <span className="email-sender">{email.to}</span>
                       <span
                         className={`email-label ${email.label.toLowerCase()}`}
                       >
                         {email.label}
                       </span>
                       <span className="email-subject">{email.subject}</span>
-                      <span className="email-time">{email.time}</span>
+                      {/* <span className="email-time">{email.time}</span> */}
                     </div>
                   ))}
                 </div>

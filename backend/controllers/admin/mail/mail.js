@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import Email from "../../../models/Email.model.js";
 export const sendEmail = async (req, res, next) => {
   try {
     const { to, subject, body } = req.body;
@@ -28,6 +29,8 @@ export const sendEmail = async (req, res, next) => {
       text: body,
       html: `<p>${body}</p>`,
     });
+
+    await Email.create({ ...req.body, label: "Sent" });
 
     return res.status(200).json({ message: "Email Sent" });
   } catch (error) {

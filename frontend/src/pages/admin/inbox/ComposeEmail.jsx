@@ -4,8 +4,11 @@ import { IoSend } from "react-icons/io5";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ComposeEmail = ({ handleOnClick, email }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const inputStyles =
     "pl-2 text-slate-500 rounded-lg py-3 border-[2px] border-slate-300 outline-slate-200 hover:border-slate-200 hover:shadow-lg transition duration-500 ease-in-out ";
 
@@ -29,6 +32,10 @@ const ComposeEmail = ({ handleOnClick, email }) => {
       .then(() => {
         toast.success("Email sent");
         handleOnClick();
+
+        if (location.pathname !== "/admin/contact") {
+          navigate(0);
+        }
       })
       .catch((err) => {
         console.log(err);
