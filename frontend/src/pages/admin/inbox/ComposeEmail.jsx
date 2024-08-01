@@ -2,6 +2,8 @@ import { MdClose, MdDelete } from "react-icons/md";
 import { IoMdAttach } from "react-icons/io";
 import { IoSend } from "react-icons/io5";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const ComposeEmail = ({ handleOnClick, email }) => {
   const inputStyles =
@@ -20,6 +22,20 @@ const ComposeEmail = ({ handleOnClick, email }) => {
     setEmailData((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post("/api/sendEmail", emailData, { withCredentials: true })
+      .then(() => {
+        toast.success("Email sent");
+        handleOnClick();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.message);
+      });
+  };
+
   return (
     <div className="flex flex-col flex-1 h-full px-6 ">
       <div className="flex justify-between bg-slate-100 px-4">
@@ -33,8 +49,9 @@ const ComposeEmail = ({ handleOnClick, email }) => {
           <MdClose size={24} />
         </button>
       </div>
-      <div className="flex flex-col gap-2">
+      <form className="flex flex-col gap-2">
         <input
+          required
           placeholder="To"
           value={emailData.to}
           className={`${inputStyles} mt-4`}
@@ -43,6 +60,7 @@ const ComposeEmail = ({ handleOnClick, email }) => {
           onChange={handleChange}
         />
         <input
+          required
           value={emailData.subject}
           placeholder="Subject"
           className={`${inputStyles}`}
@@ -51,15 +69,20 @@ const ComposeEmail = ({ handleOnClick, email }) => {
           onChange={handleChange}
         />
         <textarea
+          required
           value={emailData.body}
           placeholder="Body"
           className={`${inputStyles} h-40 max-h-40 min-h-40`}
           id="body"
           onChange={handleChange}
         />
-      </div>
+      </form>
       <div className="px-4 bg-slate-100 flex justify-between items-center py-2 mt-auto">
-        <button className="flex gap-2 items-center bg-blue-700 py-1 px-4 rounded-lg text-white">
+        <button
+          onClick={handleSubmit}
+          type="submit"
+          className="flex gap-2 items-center bg-blue-700 py-1 px-4 rounded-lg text-white"
+        >
           Send <IoSend size={15} />
         </button>
         <div className="flex gap-1">

@@ -1,7 +1,13 @@
 import nodemailer from "nodemailer";
-
 export const sendEmail = async (req, res, next) => {
   try {
+    const { to, subject, body } = req.body;
+
+    if (to === "" || subject === "" || body === "") {
+      return res
+        .status(400)
+        .json({ message: "Please provide all required fields" });
+    }
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,
@@ -16,11 +22,11 @@ export const sendEmail = async (req, res, next) => {
     });
 
     await transporter.sendMail({
-      from: "kelvinmhacwilson@gmail.com", 
-      to: "kelvinattatsi@gmail.com",
-      subject: "Hello the name is Kelvin ✔", 
-      text: "Hello world?", 
-      html: "<b>Hello world?</b>", 
+      from: process.env.SMTP_MAIL,
+      to,
+      subject,
+      text: body,
+      html: `<p>${body}</p>`,
     });
 
     return res.status(200).json({ message: "Email Sent" });
