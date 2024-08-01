@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const ComposeEmail = ({ handleOnClick, email }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [sending, setSending] = useState(false);
   const inputStyles =
     "pl-2 text-slate-500 rounded-lg py-3 border-[2px] border-slate-300 outline-slate-200 hover:border-slate-200 hover:shadow-lg transition duration-500 ease-in-out ";
 
@@ -26,19 +27,21 @@ const ComposeEmail = ({ handleOnClick, email }) => {
   };
 
   const handleSubmit = async (e) => {
+    setSending(true);
     e.preventDefault();
     await axios
       .post("/api/sendEmail", emailData, { withCredentials: true })
       .then(() => {
         toast.success("Email sent");
         handleOnClick();
-
+        setSending(false);
         if (location.pathname !== "/admin/contact") {
           navigate(0);
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        setSending(false);
         toast.error(err.response.data.message);
       });
   };
@@ -90,7 +93,7 @@ const ComposeEmail = ({ handleOnClick, email }) => {
           type="submit"
           className="flex gap-2 items-center bg-blue-700 py-1 px-4 rounded-lg text-white"
         >
-          Send <IoSend size={15} />
+          {!sending ? "Send" : "Sending"} <IoSend size={15} />
         </button>
         <div className="flex gap-1">
           <label className="cursor-pointer">
