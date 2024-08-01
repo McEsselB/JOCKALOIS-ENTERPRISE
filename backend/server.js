@@ -2,10 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
-
 import auth from "./routes/general/auth.js";
 import admin from "./routes/admin/admin.js";
-import products from "./routes/general/product.js";
+import product from "./routes/general/product.js";
+import general from "./routes/general/general.js";
 import { authToken } from "./middleware/authToken.js";
 import { verifyAdmin } from "./middleware/verifyAdmin.js";
 
@@ -21,7 +21,8 @@ app.post("/api/", (req, res) => {
 
 app.use("/api/auth", auth);
 app.use("/api/admin", authToken, verifyAdmin, admin);
-app.use("/api/", products);
+app.use("/api/", product);
+app.use("/api/", general);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
