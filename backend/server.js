@@ -7,13 +7,20 @@ import admin from "./routes/admin/admin.js";
 import product from "./routes/general/product.js";
 import general from "./routes/general/general.js";
 import { authToken } from "./middleware/authToken.js";
+import cors from "cors";
 import { verifyAdmin } from "./middleware/verifyAdmin.js";
 
 dotenv.config();
 const app = express();
 
+const corsConfig = {
+  origin: "http://localhost:5173",
+  credentials: true,
+};
+
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsConfig));
 
 app.post("/api/", (req, res) => {
   res.send("JOCKALOIS ENTERPRISE Server is UP and Running");
