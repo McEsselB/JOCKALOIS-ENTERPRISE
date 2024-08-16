@@ -161,7 +161,7 @@ export default function SignUp() {
 
         <p className="text-sm text-center text-slate-700">
           Copyright ©.{" "}
-          <span className="underline">The Jockalois Enterprise</span> 2024
+          <span className="underline">Jockalois Inn Enterprise</span> 2024
         </p>
       </div>
     </div>

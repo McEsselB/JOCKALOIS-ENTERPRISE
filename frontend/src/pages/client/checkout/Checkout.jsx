@@ -198,7 +198,7 @@ const Checkout = () => {
             <p className="shipping-address-detail">
               <strong>Home</strong> University of Ghana, Legon hall, Accra
               <br />
-              <br></br>
+              <br />
               Lucy Stone, +233570450450
             </p>
           </div>

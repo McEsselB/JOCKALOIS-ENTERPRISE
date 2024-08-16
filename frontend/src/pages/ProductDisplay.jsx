@@ -62,6 +62,10 @@ const ProductDisplay = () => {
     navigate('/cart');
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
+
   return (
     <div className="productsPage2 overflow-hidden">
       <Header />

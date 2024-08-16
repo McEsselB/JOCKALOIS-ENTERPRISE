@@ -101,14 +101,7 @@ const AdminHeader = () => {
                 />
                 <span className="profile-option-text">{"Change Password"}</span>
               </div>
-              <div className="profile-option">
-                <img
-                  src={activityLogIcon}
-                  alt="Activity Log"
-                  className="icon2"
-                />
-                <span className="profile-option-text">{"Activity Log"}</span>
-              </div>
+              
               <div className="profile-option" onClick={handleLogout}>
                 <img src={logoutIcon} alt="Log out" className="icon2" />
                 <span className="profile-option-text">{"Log out"}</span>

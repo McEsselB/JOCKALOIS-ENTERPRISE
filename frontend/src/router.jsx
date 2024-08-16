@@ -11,7 +11,7 @@ import Table from "./pages/admin/table/Table";
 import TeamForm from "./pages/admin/stuff/TeamForm";
 import Cart from "./pages/client/cart/CartPage";
 import Checkout from "./pages/client/checkout/Checkout";
-import ContactUs from "./components/ContactUs";
+import ContactUs from "./pages/client/contact/ContactUs";
 import Contact from "./pages/admin/contact/Contact";
 import Invoice from "./pages/admin/invoice/Invoice";
 import App from "./App";
@@ -19,6 +19,7 @@ import Calendar from "./pages/admin/calendar/Calendar";
 import Admin from "./pages/admin/Admin";
 import TopSellers from "./pages/admin/top_sellers/TopSellers";
 import SignIn from "./pages/general/login/Sign-in";
+import ForgotPassword from "./pages/general/login/ForgotPassword";
 import AllProducts from "./pages/AllProducts";
 import Stuff from "./pages/admin/stuff/Stuff";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
         element: <SignIn />,
       },
       {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
         path: "cart",
         element: <Cart />,
       },
@@ -57,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <Products />,
+      },
+      {
+        path: "contact-us",
+        element: <ContactUs />,
       },
       {
         path: "product/:id",

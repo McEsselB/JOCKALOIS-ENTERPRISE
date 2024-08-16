@@ -22,6 +22,10 @@ export default function SignIn() {
     password: "",
   });
 
+  const forgotPassword = () => {
+    navigate("/forgot-password");
+  };
+
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -79,8 +83,8 @@ export default function SignIn() {
   return (
     <div className="grid md:grid-cols-2 h-screen items-center justify-center gap-10">
       <div className="items-center hidden md:flex bg-blue-800 h-screen justify-center  flex-col">
-        <img src={logo} alt="" className="w-10 h-10" />
-        <img src={workerImage} alt="" className="w-10 h-10" />
+        <img src={logo} alt="" className="w-20 h-20" />
+        <img src={workerImage} alt="" className="w-90 h-80" />
       </div>
 
       <div className="flex flex-col md:pr-10 w-full md:max-w-[500px] justify-self-center ">
@@ -107,7 +111,7 @@ export default function SignIn() {
             />
           </div>
 
-          <p className="text-sm text-right text-blue-700">Forget password?</p>
+          <p className="text-sm text-right text-blue-700 cursor-pointer" onClick={forgotPassword}>Forgot password?</p>
 
           <div className="flex gap-2">
             <input type="checkbox" className="cursor-pointer" />

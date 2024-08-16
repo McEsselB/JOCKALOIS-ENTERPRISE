@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import './ContactUs.modules.css';
-import contactbag from '../../../assets/assets//images/contactbag.jpg';
-import locationIcon from '../../../assets/assets//images/location.png';
+import contactbag from '../../../assets/images/contactbag.jpg';
+import locationIcon from '../../../assets/images/location.png';
 
 const ContactUs = () => {
     useEffect(() => {
