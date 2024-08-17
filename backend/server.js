@@ -15,10 +15,6 @@ dotenv.config();
 const app = express();
 const __dirname = path.resolve();
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-});
-
 const corsConfig = {
   origin: ["http://localhost:5173", "https://jockalois-enterprise.vercel.app/"],
   credentials: true,
@@ -42,6 +38,12 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
 app.listen(process.env.PORT, () => {
