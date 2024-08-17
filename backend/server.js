@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 
 const corsConfig = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://jockalois-enterprise.vercel.app/"],
   credentials: true,
 };
 
@@ -24,6 +24,10 @@ app.use(cors(corsConfig));
 
 app.post("/api/", (req, res) => {
   res.send("JOCKALOIS ENTERPRISE Server is UP and Running");
+});
+
+app.get("/", (req, res) => {
+  return res.json("Backend Server Up and Running");
 });
 
 app.use("/api/auth", auth);
