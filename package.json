@@ -7,6 +7,8 @@
     "server": "nodemon backend/server.js",
     "start": "node backend/server.js",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "test": "echo \"No tests yet\" && exit 0"
+
   },
   "keywords": [],
   "author": "",
